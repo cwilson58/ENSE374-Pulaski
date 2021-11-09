@@ -4,9 +4,41 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=., initial-scale=1.0">
-    <title>Document</title>
+    <title>Log Activity</title>
 </head>
 <body>
-    <p>ree</p>
+    <div id="HeaderBar">
+        <span id="UsersImage">Hello, <%= username %></span>
+        <div id="NavigationButtons">
+            <button>Home</button>
+            <button>Log Activity</button>
+            <button>Current Stats</button>
+            <button>Log Out</button>
+        </div>
+    </div>
+    <div id="TodaysLog">
+        <div id="TodaysLogHeader">
+            <p>Activites for <%= date %></p>
+            <button>Find New Activities!</button>
+        </div>
+        <div id="TodaysLogContent">
+            <div id="ActivityType">
+                <!--Forms done with ejs partials-->
+                <%- include("Partials/selectActivityForm.ejs",{}) -%>
+                <%- include("Partials/timeDistanceBasedForm.ejs",{}) -%>
+                <%- include("Partials/weightBasedForm.ejs",{}) -%>
+                <button>Add Another Activity</button>
+                <button>Save</button>
+            </div>
+        </div>
+    </div>
+    <div id="TryThese">
+        <div id="TryHeader">
+            <p>Based on what others are doing, try these!</p>
+        </div>
+        <div id="TryBody">
+            <%- include("Partials/tryThese.ejs",{}) -%>
+        </div>
+    </div>
 </body>
 </html>

@@ -18,6 +18,8 @@ app.listen(port, () => {
 });
 
 app.post("/logActivity", (req, res) => {
-  console.log("pain");
-  res.render("logActivity", {});
+  res.render("logActivity", {
+    username: "TESTNAME",
+    date: "SOMEDATE",
+  });
 });
