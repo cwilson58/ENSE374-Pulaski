@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<header>
+    <meta charset="UTF-8">
+    <title>Current Stats</title>
+</header>
+<body>
+    <!-- Cameron's header bar, make it a partial at some point -->
+    <div id="HeaderBar">
+        <span id="UsersImage">Hello, <%= username %></span>
+        <div id="NavigationButtons">
+            <button>Home</button>
+            <button>Log Activity</button>
+            <button>Current Stats</button>
+            <button>Log Out</button>
+        </div>
+    </div>
+    <br>
+    <div id = "Progress">
+        <div id="ProgressHeader">
+            Progress towards your goals
+        </div>
+        <div id="ProgressContent">
+            <%- include("Partials/progressContentForm.ejs",{}) -%>
+        </div>
+    </div>
+    <div id = "Goals">
+        <div id="GoalsHeader">
+            Current Goals
+        </div>
+        <div id="GoalsContent">
+            <%- include("Partials/goalsContentForm.ejs",{}) -%>
+        </div>
+    </div>
+    <button id="EditGoalsBtn">Edit Goals</button> <br> <br>
+    <div id = "Stats">
+        <div id="StatsHeader">
+            Current Stats
+        </div>
+        <div id="StatsContent">
+            <%- include("Partials/statsContentForm.ejs",{}) -%>
+        </div>
+    </div>
+    <button id="EditStatsBtn">Edit Stats</button>
+</body>
