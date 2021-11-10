@@ -4,31 +4,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=., initial-scale=1.0">
+    <link rel="stylesheet" href="/Css/styles.css">
     <title>Log Activity</title>
 </head>
 <body>
-    <div id="HeaderBar">
-        <span id="UsersImage">Hello, <%= username %></span>
-        <div id="NavigationButtons">
-            <button>Home</button>
-            <button>Log Activity</button>
-            <button>Current Stats</button>
-            <button>Log Out</button>
+    <%- include("Partials/headerBar.ejs",{}) -%>
+    <div id="TodaysLog" class="container">
+        <div id="TodaysLogHeader" class="headerBar" style="padding: 0.002em;" >
+            <p>Activites for <%= date %>
+                <button class="btn navBtn">Find New Activities!</button>
+            </p>
         </div>
-    </div>
-    <div id="TodaysLog">
-        <div id="TodaysLogHeader">
-            <p>Activites for <%= date %></p>
-            <button>Find New Activities!</button>
-        </div>
-        <div id="TodaysLogContent">
+        <div id="TodaysLogContent" >
             <div id="ActivityType">
                 <!--Forms done with ejs partials-->
                 <%- include("Partials/selectActivityForm.ejs",{}) -%>
                 <%- include("Partials/timeDistanceBasedForm.ejs",{}) -%>
                 <%- include("Partials/weightBasedForm.ejs",{}) -%>
-                <button>Add Another Activity</button>
-                <button>Save</button>
+                <button class="btn">Add Another Activity</button>
+                <button class="btn">Save</button>
             </div>
         </div>
     </div>
@@ -40,5 +34,4 @@
             <%- include("Partials/tryThese.ejs",{}) -%>
         </div>
     </div>
-</body>
-</html>
+<%- include("Layouts/footer") -%>

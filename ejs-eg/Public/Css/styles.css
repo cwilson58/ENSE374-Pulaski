@@ -1,0 +1,44 @@
+:root {
+  --background: #d1d1d1;
+  --lightContentColour: #c1d8ce;
+  --darkContentColour: #004f2e;
+  --lightestColour: #ffffff;
+}
+* {
+  font-family: "Times New Roman", Times, serif;
+}
+body {
+  margin: 0;
+  background-color: var(--background);
+}
+.headerBar {
+  background-color: var(--darkContentColour);
+  color: var(--lightestColour);
+  font-size: large;
+  margin: 0;
+  padding: 1rem;
+  box-shadow: 0 5px 5px grey;
+}
+
+.container {
+  margin-top: 10px;
+  background-color: var(--lightContentColour);
+  border: 1px solid var(--darkContentColour);
+  padding: 0;
+}
+
+.btn {
+  background-color: var(--darkContentColour);
+  color: var(--lightestColour);
+  border-radius: 20px;
+  font-size: medium;
+  border: 0;
+}
+
+.footer {
+  color: var(--darkContentColour);
+  text-align: center;
+}
+.navBtn {
+  float: right;
+}

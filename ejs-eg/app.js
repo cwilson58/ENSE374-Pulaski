@@ -16,7 +16,7 @@ app.listen(port, () => {
   // template literal
   console.log(`Server is running on http://localhost:${port}`);
 });
-
+// Testing the log page, needs to be modified to actually render the page
 app.post("/logActivity", (req, res) => {
   res.render("logActivity", {
     username: "TESTNAME",
