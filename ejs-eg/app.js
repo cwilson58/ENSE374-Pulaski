@@ -23,9 +23,15 @@ app.post("/logActivity", (req, res) => {
     date: "SOMEDATE",
   });
 });
+app.post("/home", (req, res) => {
+  res.redirect("/");
+});
 
 app.post("/loginPage", (req, res) => {
   res.sendFile(__dirname + "/views/login.html");
+});
+app.post("/logout", (req, res) => {
+  res.redirect("/");
 });
 
 app.post("/currentStats", (req, res) => {

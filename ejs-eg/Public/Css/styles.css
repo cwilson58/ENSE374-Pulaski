@@ -19,7 +19,9 @@ body {
   padding: 0.002rem;
   box-shadow: 0 5px 5px grey;
 }
-
+.headerBarInlineDisplay {
+  display: inline;
+}
 .container {
   margin-top: 20px;
   background-color: var(--lightContentColour);
