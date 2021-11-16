@@ -9,8 +9,8 @@
 </head>
 <body>
     <%- include("Partials/headerBar.ejs",{}) -%>
-    <div id="TodaysLog" class="container">
-        <div id="TodaysLogHeader" class="headerBar" style="padding: 0.002em;" >
+    <div id="TodaysLog" class="container centerContainer">
+        <div id="TodaysLogHeader" class="headerBar">
             <p>Activites for <%= date %>
                 <button class="btn navBtn">Find New Activities!</button>
             </p>
@@ -19,15 +19,18 @@
             <div id="ActivityType">
                 <!--Forms done with ejs partials-->
                 <%- include("Partials/selectActivityForm.ejs",{}) -%>
-                <%- include("Partials/timeDistanceBasedForm.ejs",{}) -%>
-                <%- include("Partials/weightBasedForm.ejs",{}) -%>
+                
                 <button class="btn">Add Another Activity</button>
                 <button class="btn">Save</button>
             </div>
+            <div id="ActivityDetails">
+                <%- include("Partials/timeDistanceBasedForm.ejs",{}) -%>
+                <%- include("Partials/weightBasedForm.ejs",{}) -%>
+            </div>
         </div>
     </div>
-    <div id="TryThese">
-        <div id="TryHeader">
+    <div id="TryThese" class="container centerContainer">
+        <div id="TryHeader" class="headerBar">
             <p>Based on what others are doing, try these!</p>
         </div>
         <div id="TryBody">
