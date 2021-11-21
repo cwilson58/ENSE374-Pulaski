@@ -3,7 +3,6 @@ Made by Cameron Wilson
 November 2021
 makes a test instance of the database for project PAT, including users, activites and user specific statistics. Ends itself at the end.
 */
-
 //Requires
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -11,6 +10,12 @@ const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const express = require("express");
 require("dotenv").config();
+//Collections
+const Users = require("./Models/user");
+const UserStats = require("./Models/stats");
+const Activities = require("./Models/activity");
+const Logs = require("./Models/logs");
+const Details = require("./Models/details");
 //mongo and passport connection
 mongoose.connect("mongodb://localhost:27017/projectPAT", {
   useNewUrlParser: true,
@@ -27,60 +32,6 @@ app.use(
   })
 );
 
-//Schema
-//these are stored in plain text for testing reasons, however, new users should have passwords salted and hashed
-const userSchema = new mongoose.Schema({
-  _id: Number,
-  username: String,
-  password: String,
-});
-
-//user stats/goals collection
-const userStats = new mongoose.Schema({
-  _id: Number,
-  userId: Number,
-  name: String,
-  startingPoint: Number,
-  currentPoint: Number,
-  endPoint: Number,
-  units: String,
-});
-//If parentLogId === 0, then it is a templated activity
-/* TYPES THAT WE USE THUS FAR
-  SetsAndReps
-  TimeAndDistance
-  SetsAndTime
-  SetsAndDistance
-*/
-const activitySchema = new mongoose.Schema({
-  _id: Number,
-  parentLogId: Number,
-  activityName: String,
-  activityType: String,
-});
-const activityLogSchema = new mongoose.Schema({
-  _id: Number,
-  date: Date,
-  ownerId: Number,
-});
-const detailsSchema = new mongoose.Schema({
-  _id: Number,
-  activityId: Number,
-  setNumber: Number,
-  reps: Number,
-  weight: Number,
-  timeInSeconds: Number,
-  distance: Number,
-  units: String,
-});
-
-userSchema.plugin(passportLocalMongoose);
-//Collections
-const Users = new mongoose.model("User", userSchema);
-const UserStats = new mongoose.model("UserStats", userStats);
-const Activities = new mongoose.model("Activities", activitySchema);
-const Logs = new mongoose.model("Logs", activityLogSchema);
-const Details = new mongoose.model("Details", detailsSchema);
 //users: NOTE FOR TESTING ONLY
 async function saveUsers() {
   var user = new Users({
@@ -533,6 +484,7 @@ async function saveDetails() {
   await detail.save();
   console.log("Details Saved");
 }
+//this makes the dbs using the above then closes the program.
 async function makeDbs() {
   await saveUsers();
   await saveStats();
@@ -542,4 +494,5 @@ async function makeDbs() {
   console.log("projectPAT database has been created!");
   process.exit(1); //Make sure everything saves then exit the js program
 }
+
 makeDbs();
