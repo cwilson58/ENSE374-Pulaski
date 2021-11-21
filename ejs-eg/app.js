@@ -4,15 +4,14 @@ const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 require("dotenv").config();
-//schemas
-const userSchema = new mongoose.Schema({
-  _id: Number,
-  username: String,
-  password: String,
-});
-userSchema.plugin(passportLocalMongoose);
-//collections
-const Users = new mongoose.model("User", userSchema);
+//mongoose connection
+mongoose.connect("mongodb://localhost:27017/projectPAT");
+//------Collections------
+const Users = require("./Models/user");
+const UserStats = require("./Models/stats");
+const Activities = require("./Models/activity");
+const Logs = require("./Models/logs");
+const Details = require("./Models/details");
 // this is a canonical alias to make your life easier, like jQuery to $.
 const app = express();
 // host static resources
@@ -30,7 +29,17 @@ app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
 //Function that gets the next id of a given collection
-function getNextId(collection) {}
+async function getNextId(collection) {
+  var nextAvailValidId = 0;
+  let taskIds = await collection.find().distinct("_id");
+  taskIds.forEach((idNum) => {
+    if (parseInt(idNum) >= nextAvailValidId) {
+      nextAvailValidId = parseInt(idNum) + 1;
+    }
+  });
+  console.log(nextAvailValidId);
+  return nextAvailValidId;
+}
 // Testing the log page, needs to be modified to actually render the page
 app.post("/logActivity", (req, res) => {
   res.render("logActivity", {
