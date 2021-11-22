@@ -8,6 +8,8 @@
   font-family: "Times New Roman", Times, serif;
 }
 body {
+  width: 100%;
+  height: 100%;
   margin: 0;
   background-color: var(--background);
 }
@@ -16,7 +18,7 @@ body {
   color: var(--lightestColour);
   font-size: large;
   margin: 0;
-  padding: 0.002rem;
+  padding: 1rem;
   box-shadow: 0 5px 5px grey;
 }
 .headerBarInlineDisplay {
@@ -26,7 +28,6 @@ body {
   margin-top: 20px;
   background-color: var(--lightContentColour);
   border: 1px solid var(--darkContentColour);
-  padding: 0;
 }
 .centerContainer {
   margin-left: auto;
@@ -39,6 +40,7 @@ body {
   border-radius: 20px;
   font-size: medium;
   border: 0;
+  cursor:pointer;
 }
 .footer {
   color: var(--darkContentColour);
@@ -46,4 +48,56 @@ body {
 }
 .navBtn {
   float: right;
+}
+.progressBars{
+  padding:2.5%;
+}
+.progressBorder{
+  border:1px solid var(--darkContentColour);
+  width:90%;
+  float:left;
+  margin-right: 10px;
+}
+.progressInner{
+  color: var(--lightestColour) ;
+  background-color: var(--darkContentColour) ;
+}
+.progressHeader{
+  text-align:center;
+  font-size: x-large;
+}
+.pageContainer{
+  position: relative;
+  min-height: 100vh;
+}
+.content{
+  padding-bottom: 2.5rem;
+}
+.footer{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;
+}
+.leftContent{
+  height:100%;
+  float:left;
+  width:47%;
+  padding-left:2%;
+  padding-right:1%;
+}
+.rightContent{
+  height:50%;
+  float:right;
+  width:47%;
+  padding-left:1%;
+  padding-right:2%;
+}
+.statsAndGoalsButton{
+  font-size:medium;
+  margin:0 auto;
+  display:block;
+  margin-bottom:1%;
+  padding-left:1%;
+  padding-right:1%;
 }

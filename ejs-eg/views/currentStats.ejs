@@ -8,32 +8,45 @@
     <title>Current Stats</title>
 </header>
 <body>
-    <%- include("Partials/headerBar.ejs",{}) -%>
-    <br>
-    <div id = "Progress">
-        <div id="ProgressHeader">
-            Progress towards your goals
+<div class="pageContainer">
+    <div class="content">
+        <%- include("Partials/headerBar.ejs",{}) -%>
+        <br>
+        <div class="leftContent">
+            <div id = "Progress" class="container">
+                <div id="ProgressHeader" class="headerBar progressHeader">
+                    Progress towards your goals
+                </div>
+                <div id="ProgressContent">
+                    <%- include("Partials/progressContentForm.ejs",{}) -%>
+                </div>
+            </div>
         </div>
-        <div id="ProgressContent">
-            <%- include("Partials/progressContentForm.ejs",{}) -%>
+        <div class="rightContent">
+            <div id = "Goals" class="container"  >
+                <div id="GoalsHeader" class="headerBar progressHeader">
+                    Current Goals
+                </div>
+                <div id="GoalsContent" style="padding:2.5%">
+                    <%- include("Partials/goalsContentForm.ejs",{}) -%>
+                </div>
+                <button id="EditGoalsBtn" class="btn btn-primary statsAndGoalsButton">Edit Goals</button>
+            </div>
+        </div>
+        <br>
+        <div class="rightContent">
+            <div id = "Stats" class="container">
+                <div id="StatsHeader" class="headerBar progressHeader">
+                    Current Stats
+                </div>
+                <div id="StatsContent" style="padding:2.5%">
+                    <%- include("Partials/statsContentForm.ejs",{}) -%>
+                </div>
+                <button id="EditStatsBtn" class="btn btn-primary statsAndGoalsButton">Edit Stats</button>
+            </div>
         </div>
     </div>
-    <div id = "Goals">
-        <div id="GoalsHeader">
-            Current Goals
-        </div>
-        <div id="GoalsContent">
-            <%- include("Partials/goalsContentForm.ejs",{}) -%>
-        </div>
+    <div class="footer">
+        <%- include("Layouts/footer") -%>
     </div>
-    <button id="EditGoalsBtn">Edit Goals</button> <br> <br>
-    <div id = "Stats">
-        <div id="StatsHeader">
-            Current Stats
-        </div>
-        <div id="StatsContent">
-            <%- include("Partials/statsContentForm.ejs",{}) -%>
-        </div>
-    </div>
-    <button id="EditStatsBtn">Edit Stats</button>
-<%- include("Layouts/footer") -%>
+</div>

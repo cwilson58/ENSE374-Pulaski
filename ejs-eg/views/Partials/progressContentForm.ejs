@@ -1,11 +1,18 @@
-<div id="Progress">
-    <span>Best Run: 1km, Goal: 5km</span> <br>
-    <progress value="25" max="100"></progress> 25% <br>
-    <span>Most Candy Bars Eaten in a day: 22, Goal:686</span> <br>
-    <progress value="3.2" max="100"></progress> 3.2% <br>
-    <span>Lose weight: 22lb, Goal:25</span> <br>
-    <progress value="88" max="100"></progress> 88% <br>
-    <span>Highest Single Rep Squat: 315lb  Goal: 500lb</span> <br>
-    <progress value="63" max="100"></progress> 63% <br>
-    <br>
+<div id="progressBars" class="progressBars">
+    <div id="Progress">
+        <span>Best Run: 1km</span> <span style="float:right;margin-right:10%">Goal:5km</span>
+        <div class="progressBorder">
+            <div class="progressInner" style="height:24px;width:20%"></div>
+        </div>
+        <br>
+        <span id="progressValue">20%</span> <br> <br>
+    </div>
+    <div id="Progress">
+        <span>Most Candy Bars Eaten in a day: 22</span> <span style="float:right;margin-right:10%">Goal:686</span>
+        <div class="progressBorder">
+            <div class="progressInner" style="height:24px;width:1.6%"></div>
+        </div>
+        <br>
+        <span id="progressValue">3.2%</span> <br> <br>
+    </div>
 </div>

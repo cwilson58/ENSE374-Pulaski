@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "..\\.."
+		},
+		{
+			"name": "SSH FS - CS215 at Titan",
+			"uri": "ssh://titan/home/hercules/m/mwo678"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "SSH FS - CS215 at Titan"
+	}
+}
