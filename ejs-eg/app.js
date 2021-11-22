@@ -58,7 +58,9 @@ app.post("/home", (req, res) => {
 });
 
 app.post("/loginPage", (req, res) => {
-  res.sendFile(__dirname + "/views/login.html");
+  res.render("login",{
+  username: "TESTNAME",
+  });
 });
 app.post("/logout", (req, res) => {
   res.redirect("/");

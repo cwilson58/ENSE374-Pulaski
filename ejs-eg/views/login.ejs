@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<header>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/Css/styles.css">
+    <title>Login</title>
+</header>
+<body>
+<div class="pageContainer">
+    <div class="content">
+        <div id="LoginSignup" class="container centerContainer loginContainer">
+            <div id="LoginSignupHeader" class="headerBar progressHeader">
+                Log In
+            </div>
+            <form action="/index.html">
+                <div class="progressBars loginInputs">
+                    <input type="text" name="LoginUsername" id="LoginUsername" placeholder="Username" class="loginInputFields"> <br>
+                    <input type="text" name="LoginPassword" id="LoginPassword" placeholder="Password" class="loginInputFields"> <br>
+                    <button type="submit" class="btn btn-primary statsAndGoalsButton loginButton">Log In</button>
+                </div>
+            </form>
+            <div id="LoginSignupHeader" class="headerBar progressHeader">
+                Sign Up
+            </div>
+            <form action="/index.html">
+                <div class="progressBars loginInputs">
+                    <input type="text" name="SignupUsername" id="SignupUsername" placeholder="Username" class="loginInputFields"> <br>
+                    <input type="text" name="SignupEmail" id="SignupEmail" placeholder="Email" class="loginInputFields"> <br>
+                    <input type="text" name="SignupPassword" id="SignupPassword" placeholder="Password" class="loginInputFields"> <br>
+                    <input type="text" name="SignupConfirmPassword" id="SignupConfirmPassword" placeholder="Confirm Password" class="loginInputFields"> <br>
+                    <button type="submit" class="btn btn-primary statsAndGoalsButton loginButton">Sign Up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="footer">
+        <%- include("Layouts/footer") -%>
+    </div>
+</div>
+</body>
