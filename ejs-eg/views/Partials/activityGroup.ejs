@@ -1,0 +1,17 @@
+<tr>
+    <div id="TodaysLogContent" >
+        <td>
+            <div id="ActivityType">
+                <!--Forms done with ejs partials-->
+                <%- include("selectActivityForm.ejs",{}) -%>
+                <button class="btn">Add Another Activity</button>
+                <button class="btn">Save</button>
+            </div>
+        </td>
+        <td>    
+            <div id="ActivityDetails">
+                <%- include("timeDistanceBasedForm.ejs",{}) -%>
+            </div>
+        </td>
+    </div>
+</tr>

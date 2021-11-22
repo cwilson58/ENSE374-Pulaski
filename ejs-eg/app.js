@@ -19,7 +19,13 @@ app.use(express.static("Public"));
 // body-parser is now built into express!
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
+//Code from stackoverflow at the following link: https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript?rq=1
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, "0");
+var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+var yyyy = today.getFullYear();
 
+today = mm + "/" + dd + "/" + yyyy;
 // a common localhost test port
 const port = 3000;
 
@@ -44,7 +50,7 @@ async function getNextId(collection) {
 app.post("/logActivity", (req, res) => {
   res.render("logActivity", {
     username: "TESTNAME",
-    date: "SOMEDATE",
+    date: today,
   });
 });
 app.post("/home", (req, res) => {

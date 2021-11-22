@@ -15,19 +15,10 @@
                 <button class="btn navBtn">Find New Activities!</button>
             </p>
         </div>
-        <div id="TodaysLogContent" >
-            <div id="ActivityType">
-                <!--Forms done with ejs partials-->
-                <%- include("Partials/selectActivityForm.ejs",{}) -%>
-                
-                <button class="btn">Add Another Activity</button>
-                <button class="btn">Save</button>
-            </div>
-            <div id="ActivityDetails">
-                <%- include("Partials/timeDistanceBasedForm.ejs",{}) -%>
-                <%- include("Partials/weightBasedForm.ejs",{}) -%>
-            </div>
-        </div>
+        <table class="centerContainer">
+           <%- include("Partials/activityGroup.ejs", {}) -%>
+           <%- include("Partials/activityGroup.ejs", {}) -%>
+        </table>
     </div>
     <div id="TryThese" class="container centerContainer">
         <div id="TryHeader" class="headerBar">
