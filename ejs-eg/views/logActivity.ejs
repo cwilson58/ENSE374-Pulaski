@@ -15,30 +15,52 @@
                 <button class="btn navBtn">Find New Activities!</button>
             </p>
         </div>
+        <div id="TodaysLogContent" ></div>
         <table class="centerContainer">
             <% for (let activity of loggedActivsList) { %>
                 <tr>
-                    <div id="TodaysLogContent" >
                         <td>
                             <div id="ActivityType">
+                                <%if(activity.activityType == null){%>
+                                    <%- include("Partials/selectActivityForm.ejs", activsList) -%>
+                                </td>
+                                <%} else { %>
                                 <!--Forms done with ejs partials-->
                                 <select>
                                     <option><%= activity.activityName %></option>
                                 </select>
-                                
-                               
                             </div>
                         </td>
                         <td>    
                             <div id="ActivityDetails">
                                 <%if(activity.activityType == "SetsAndReps") {%>
-                                    <%- include("Partials/setTable.ejs", activity, activDetailList) %>
+                                    <div id="SetTable">
+                                        <% for (let detail of activDetailList ) { 
+                                            if(activity._id == detail.activityId) {
+                                            %> <form action="" method="post"> <%
+                                                if(detail.reps == "" || detail.reps == null || detail.reps == 0) {%>
+                                                    <input type="text" name="Reps" id="Reps" placeholder= "reps">
+                                                    <input type="text" name="Weight" id="Weight" placeholder= "weight">
+                                                    <input type="text" name="Units" id="Units" placeholder= "units">
+                                                    <br>
+                                                <%} else { %>
+                                                    <input type="text" name="Reps" id="Reps" value= <%=detail.reps %>>
+                                                    <input type="text" name="Weight" id="Weight" value= <%=detail.weight %>>
+                                                    <input type="text" name="Units" id="Units" value= <%=detail.units %>>
+                                                    <br> 
+                                                <%}
+                                            %> </form> <%
+                                            } else { %>
+                                                <p> <%= activity._id %> </p>
+                                            <%}
+                                        }%>
+                                    </div>
                                 <% } else {%>
                                     <%- include("Partials/timeDistanceBasedForm.ejs",activity, activDetailList) -%>
                                 <% } %>
                             </div>
                         </td>
-                    </div>
+                        <%}%>
                 </tr>
             <%}%>
             <tr>

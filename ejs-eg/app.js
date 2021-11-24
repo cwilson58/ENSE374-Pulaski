@@ -71,8 +71,23 @@ async function RenderLogPage(req, res, usersName, usersId, logsDate) {
 app.post("/logActivity", (req, res) => {
   RenderLogPage(req, res, "CameronTestUser", 0, "2021-12-22");
 });
-app.post("/addAnotherActivity", (req, res) => {
-  //get the current users information, the current logs information and add a blank detail to the log
+app.post("/addAnotherActivity", async (req, res) => {
+  //the current logs information and add a blank detail to the log
+  var usersName = "CameronTestUser";
+  var usersId = 0;
+  var date = "2021-12-22";
+  var newActivsId = await getNextId(Activities);
+  var logsId = req.body.CurrLogsId;
+  const newActivity = new Activities({
+    _id: newActivsId,
+    parentLogId: logsId,
+    activityName: null,
+    activityType: null,
+  });
+  newActivity.save().then(() => {
+    console.log("AN ACTIVITY HAS BEEN ADDED for log " + logsId);
+    RenderLogPage(req, res, usersName, usersId, date);
+  });
   console.log("ADD");
 });
 app.post("/home", (req, res) => {
