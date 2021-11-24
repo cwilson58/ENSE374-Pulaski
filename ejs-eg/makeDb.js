@@ -36,12 +36,14 @@ app.use(
 async function saveUsers() {
   var user = new Users({
     _id: 0,
+    email: "cameron@PAT.ca",
     username: "CameronTestUser",
     password: "Cameron",
   });
   await user.save();
   user = new Users({
     _id: 1,
+    email: "michael@PAT.ca",
     username: "MichaelTestUser",
     password: "Michael",
   });
@@ -49,12 +51,14 @@ async function saveUsers() {
 
   user = new Users({
     _id: 2,
+    email: "justine@PAT.ca",
     username: "JustineTestUser",
     password: "Justine",
   });
   await user.save();
   user = new Users({
     _id: 3,
+    email: "otherUser@PAT.ca",
     username: "OtherTestUser",
     password: "ENSE374",
   });
