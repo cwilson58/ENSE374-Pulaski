@@ -97,7 +97,9 @@ app.get("/", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  res.sendFile( __dirname + "/Public/index.html" );
+  res.render("home", {
+    username: "TESTNAME",
+});
 });
 app.post("/register", async (req, res) => {
   var newId = await getNextId(Users);
@@ -111,7 +113,9 @@ app.post("/register", async (req, res) => {
         else {
           passport.authenticate( "local");
           console.log("Registered, redirecting to home");
-          res.sendFile( __dirname + "/Public/index.html" );
+          res.render("home", {
+            username: "TESTNAME",
+          });
         }
     });
 });
