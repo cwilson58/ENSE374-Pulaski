@@ -123,6 +123,7 @@ body {
   border-width: 1px;
   border-style: solid;
   border-color:  var(--darkContentColour);
+  font-size:larger;
 }
 .loginButton{
   padding:3%;
