@@ -132,3 +132,136 @@ body {
   margin-top: 2%;
   font-size:x-large;
 }
+.pageContainer
+{
+    position: relative;
+    min-height: 100vh;
+}
+
+.content 
+{
+    padding-bottom: 2.5rem;
+    overflow:auto;
+    width:100%; 
+}
+
+.content2
+{
+    padding-top: 2.5rem;
+    overflow:auto;
+    width:100%; 
+}
+
+.aside
+{
+    padding-bottom: 2.5rem;
+    overflow:auto;
+    width:100%;
+}
+
+.ActivityContentBox
+{
+    float:left;
+    height: 200px;
+    width: 50%;
+    margin-left: 5%;
+    background-color: #C1D8CE;
+    border: 1px solid #004F2E;
+}
+
+.TodaysActivityHeader
+{
+    text-align: center;
+    font-size: x-large;
+    background-color: #004F2E;
+}
+
+.NotificationContentBox
+{
+  float:right;
+  height:200px;
+  width: 35%;
+  margin-right:5%;
+  background-color: #C1D8CE;
+  border: 1px solid #004F2E;
+
+}
+
+.NotificationHeader
+{
+    text-align: center;
+    font-size: x-large;
+    background-color: #004F2E;
+}
+
+.Context
+{
+    text-align: left;
+}
+
+.Checklist
+{
+    text-align: center;
+}
+
+.CurrentContentBox
+{
+    float:left;
+    height:380px;
+    width: 50%;
+    margin-left: 5%;
+    background-color: #C1D8CE;
+    border: 1px solid #004F2E;
+}
+
+.CurrentStatsHeader
+{
+    text-align: center;
+    font-size: x-large;
+    background-color: #004F2E;
+}
+
+.ProgressContent
+{
+    text-align: center;
+}
+
+.SuggestionContentBox
+{
+    float:left;
+    height:200px;
+    width: 50%;
+    margin-left: 5%;
+    background-color: #C1D8CE;
+    border: 1px solid #004F2E;
+}
+
+.SuggestionHeader
+{
+    text-align: center;
+    font-size: x-large;
+    background-color: #004F2E;    
+}
+
+.CalendarContentBox
+{
+    float:right;
+    height:380px;
+    width: 35%;
+    margin-right:5%;
+    background-color: #C1D8CE;
+    border: 1px solid #004F2E;
+}
+
+.CalendarHeader
+{
+    text-align: center;
+    font-size: x-large;
+    background-color: #004F2E;  
+}
+
+.Button
+{
+    text-align: center;
+    border-top: #004F2E;
+}
