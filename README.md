@@ -9,7 +9,17 @@ This is project P.A.T. the Physical Activity Tracker made by Michael, Justine, C
 
 # Technologies used
 
-HTML5, CSS3, Node.js, express, ejs, mongoDb, bootstrap
+HTML5, CSS3, Node.js, express, ejs, mongoDb,passport, bootstrap
+
+# Install Instructions
+
+Once the repo has been pulled, open a terminal and naviagte into the ejs-eg directory. Once there, run the following:
+npm init
+npm i express ejs mongoose passport passport-local passport-local-mongoose express-session dotenv
+ensure mongo is running in a seperate terminal
+Then, run: node makeDb.js
+If there are errors run
+
 
 # MVP 1
 
