@@ -95,9 +95,7 @@ app.post("/home", (req, res) => {
 });
 
 app.post("/loginPage", (req, res) => {
-  res.render("login", {
-    username: "TESTNAME",
-  });
+  res.render("login");
 });
 app.post("/logout", (req, res) => {
   res.redirect("/");
@@ -107,4 +105,28 @@ app.post("/currentStats", (req, res) => {
   res.render("currentStats", {
     username: "TESTNAME",
   });
+});
+app.get("/", (req, res) => {
+  console.log("accessing / ");
+  res.render("login");
+});
+
+app.post("/login", (req, res) => {
+  res.sendFile( __dirname + "/Public/index.html" );
+});
+app.post("/register", async (req, res) => {
+  var newId = await getNextId(Users);
+  console.log( "User " + req.body.SignupUsername + " is attempting to register, email:" + req.body.SignupEmail + ", password:" + req.body.SignupPassword + ", confirm password:" + req.body.SignupConfirmPassword + ", id:" + newId);
+  Users.register({ _id:newId , email:req.body.SignupEmail , username:req.body.SignupUsername }, req.body.SignupPassword,
+                    ( err, user ) => {
+        if ( err ) {
+        console.log( err );
+            res.redirect( "/" );
+        }
+        else {
+          passport.authenticate( "local");
+          console.log("Registered, redirecting to home");
+          res.sendFile( __dirname + "/Public/index.html" );
+        }
+    });
 });

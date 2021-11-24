@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/Css/styles.css">
+    <title>Home</title>
+</head>
+
+<body>  
+    <div class="pageContainer">
+        <div class="content">
+            <%- include("Partials/headerBar.ejs",{}) -%>
+            <br>
+            <div class="NotificationContentBox">
+                <div class="NotificationHeader">
+                    Notifications
+                </div>
+
+                <div id="Context">
+                    <ul>
+                        <li>You need to run 2km today!</li> 
+                        <li>You need to eat 25 candy today!</li>
+                    </ul>
+                </div>
+                
+                <br>
+                <br>
+            </div>
+            
+            <div class="ActivityContentBox">
+                <div class="TodaysActivityHeader">                
+                    Today's Activity
+                </div>
+
+                    <div class="Checklist">
+                    <br>
+                    <div>
+                        <input type="textbox" placeholder="Completed Task" size=35%>
+                        <input type="checkbox" id="chck">
+                    </div>
+                    <br>
+                    <div>
+                        <input type="textbox" placeholder="Uncompleted Task" size=35%>
+                        <input type="checkbox" id="chck">
+                    </div>
+                    <br>
+                        <button class="btn">Edit</button>
+                    </div>            
+                </div>
+            </div>
+
+            <div class="content">
+
+                <div class="CurrentContentBox">
+                    <div class="CurrentStatsHeader">
+                        Current Stats
+                    </div>
+                    
+                    <div class="ProgressContent">
+                        <br>
+                        <div class="Content1">
+                            Best Run: 1km Goal 5km
+                        </div>
+                        <br>
+                        <div class="Content2">
+                            Most Candy Bars Eaten in a day: Goal 686
+                        </div>
+                        <br>
+                        <button class="btn">Edit</button>
+                    </div>
+                </div>
+                
+                <div class="CalendarContentBox">
+                    <div class="CalendarHeader">
+                        Calendar
+                    </div>
+
+                    <div class="CalendarContext">
+                        <img src="https://cdn.calendaroptions.com/images/large/printable-november-2021-calendar.png" height="342" width="664">
+                    </div>
+                </div>
+            </div>
+
+            <div class="SuggestionContentBox">
+                <div class="SuggestionHeader">
+                    Try These!
+                </div>
+
+                <div class="Checklist">
+                    <br>
+                    <div>
+                        <input type="textbox" placeholder="Not eating 686 candy  bars a day" size=35%>
+                    </div>
+                    <br>
+                    <div>
+                        <input type="textbox" placeholder="Bog snorkling" size=35% float="fixed">
+                    </div>
+                </div>
+
+                <div class="Button">
+                    <br>
+                    <button id="btn">More</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

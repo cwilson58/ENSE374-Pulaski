@@ -11,9 +11,9 @@
             <div id="LoginSignupHeader" class="headerBar progressHeader">
                 Log In
             </div>
-            <form action="/index.html">
+            <form action="/login" method="post">
                 <div class="progressBars loginInputs">
-                    <input type="text" name="LoginUsername" id="LoginUsername" placeholder="Username" class="loginInputFields"> <br>
+                    <input type="text" name="LoginUsername" id="LoginUsername" placeholder="Email Address" class="loginInputFields"> <br>
                     <input type="text" name="LoginPassword" id="LoginPassword" placeholder="Password" class="loginInputFields"> <br>
                     <button type="submit" class="btn btn-primary statsAndGoalsButton loginButton">Log In</button>
                 </div>
@@ -21,12 +21,12 @@
             <div id="LoginSignupHeader" class="headerBar progressHeader">
                 Sign Up
             </div>
-            <form action="/index.html">
+            <form action="/register" method="post">
                 <div class="progressBars loginInputs">
                     <input type="text" name="SignupUsername" id="SignupUsername" placeholder="Username" class="loginInputFields"> <br>
-                    <input type="text" name="SignupEmail" id="SignupEmail" placeholder="Email" class="loginInputFields"> <br>
-                    <input type="text" name="SignupPassword" id="SignupPassword" placeholder="Password" class="loginInputFields"> <br>
-                    <input type="text" name="SignupConfirmPassword" id="SignupConfirmPassword" placeholder="Confirm Password" class="loginInputFields"> <br>
+                    <input type="text" name="SignupEmail" id="SignupEmail" placeholder="Email Address" class="loginInputFields"> <br>
+                    <input type="password" name="SignupPassword" id="SignupPassword" placeholder="Password" class="loginInputFields"> <br>
+                    <input type="password" name="SignupConfirmPassword" id="SignupConfirmPassword" placeholder="Confirm Password" class="loginInputFields"> <br>
                     <button type="submit" class="btn btn-primary statsAndGoalsButton loginButton">Sign Up</button>
                 </div>
             </form>
