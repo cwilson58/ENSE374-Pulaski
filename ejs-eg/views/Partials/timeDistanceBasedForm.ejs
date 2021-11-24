@@ -1,13 +1,32 @@
-<form action="" method="post">
-    <p>Time: </p>
-    <input type="text" name="Min" id="Min" value="Min">
-    <input type="text" name ="seconds" id="Seconds" value="Seconds">
-    <br>
-    <input type="text" name="Distance" id="Distance" value="Distance">
-    <select name="Units" id="Units">
-        <option value="Meters">Meters</option>
-        <option value="Kilometers">Kilometers</option>
-        <option value="Yards">Yards</option>
-        <option value="Miles">Miles</option>
-    </select>
-</form>
+<% for (let detail of activDetailList ) { 
+    if(activity._id == detail.activityId) { 
+    %><form action="" method="post"><%
+        if(detail.timeInSeconds == 0) {%>
+            <p>Time: </p>
+            <input type="text" name="Min" id="Min" placeholder="Min">
+            <input type="text" name ="seconds" id="Seconds" placeholder="Seconds">
+            <br>
+            <input type="text" name="Distance" id="Distance" placeholder="Distance">
+            <select name="Units" id="Units">
+                <option value="Meters">Meters</option>
+                <option value="Kilometers">Kilometers</option>
+                <option value="Yards">Yards</option>
+                <option value="Miles">Miles</option>
+            </select>
+        <%} else { %>
+            <p>Time: </p>
+            <input type="text" name="Min" id="Min" placeholder="Min">
+            <input type="text" name ="seconds" id="Seconds" value=<%= detail.timeInSeconds %>>
+            <br>
+            <input type="text" name="Distance" id="Distance" value=<%=detail.distance %>>
+            <select name="Units" id="Units">
+                <option value="Current"><%= detail.units%></option>
+                <option value="Meters">Meters</option>
+                <option value="Kilometers">Kilometers</option>
+                <option value="Yards">Yards</option>
+                <option value="Miles">Miles</option>
+            </select>
+        <%}%>
+    </form> <%
+    }
+} %>

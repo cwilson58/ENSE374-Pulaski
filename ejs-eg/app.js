@@ -25,7 +25,7 @@ var dd = String(today.getDate()).padStart(2, "0");
 var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
 var yyyy = today.getFullYear();
 
-today = mm + "/" + dd + "/" + yyyy;
+today = mm + "-" + dd + "-" + yyyy;
 // a common localhost test port
 const port = 3000;
 
@@ -46,20 +46,42 @@ async function getNextId(collection) {
   console.log(nextAvailValidId);
   return nextAvailValidId;
 }
-// Testing the log page, needs to be modified to actually render the page
-app.post("/logActivity", (req, res) => {
-  res.render("logActivity", {
-    username: "TESTNAME",
-    date: today,
+async function RenderLogPage(req, res, usersName, usersId, logsDate) {
+  let activsToRender = await Activities.find({ parentLogId: 0 });
+  let logId = await Logs.find({ ownerId: usersId, date: logsDate });
+  let loggedActivsToRender = await Activities.find({
+    parentLogId: logId[0]._id,
   });
+  let activsDetails = [];
+  for (activity of loggedActivsToRender) {
+    let tempDetails = await Details.find({ activityId: activity._id });
+    for (det of tempDetails) {
+      activsDetails.push(det);
+    }
+  }
+  res.render("logActivity", {
+    username: usersName,
+    date: logsDate,
+    activsList: activsToRender,
+    loggedActivsList: loggedActivsToRender,
+    activDetailList: activsDetails,
+    logsId: logId[0]._id,
+  });
+}
+app.post("/logActivity", (req, res) => {
+  RenderLogPage(req, res, "CameronTestUser", 0, "2021-12-22");
+});
+app.post("/addAnotherActivity", (req, res) => {
+  //get the current users information, the current logs information and add a blank detail to the log
+  console.log("ADD");
 });
 app.post("/home", (req, res) => {
   res.redirect("/");
 });
 
 app.post("/loginPage", (req, res) => {
-  res.render("login",{
-  username: "TESTNAME",
+  res.render("login", {
+    username: "TESTNAME",
   });
 });
 app.post("/logout", (req, res) => {

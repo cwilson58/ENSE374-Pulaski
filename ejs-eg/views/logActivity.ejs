@@ -16,8 +16,41 @@
             </p>
         </div>
         <table class="centerContainer">
-           <%- include("Partials/activityGroup.ejs", {}) -%>
-           <%- include("Partials/activityGroup.ejs", {}) -%>
+            <% for (let activity of loggedActivsList) { %>
+                <tr>
+                    <div id="TodaysLogContent" >
+                        <td>
+                            <div id="ActivityType">
+                                <!--Forms done with ejs partials-->
+                                <select>
+                                    <option><%= activity.activityName %></option>
+                                </select>
+                                
+                               
+                            </div>
+                        </td>
+                        <td>    
+                            <div id="ActivityDetails">
+                                <%if(activity.activityType == "SetsAndReps") {%>
+                                    <%- include("Partials/setTable.ejs", activity, activDetailList) %>
+                                <% } else {%>
+                                    <%- include("Partials/timeDistanceBasedForm.ejs",activity, activDetailList) -%>
+                                <% } %>
+                            </div>
+                        </td>
+                    </div>
+                </tr>
+            <%}%>
+            <tr>
+                <td>
+                    <%- include("Partials/selectActivityForm.ejs", activsList) -%>
+                    <form action="addAnotherActivity" method="post">
+                        <input type="hidden" name="CurrLogsId" value=<%= logsId %>>
+                        <button class="btn">Add Another Activity</button>
+                    </form>
+                    <button class="btn">Save</button>
+                </td>
+            </tr>
         </table>
     </div>
     <div id="TryThese" class="container centerContainer">
@@ -25,7 +58,7 @@
             <p>Based on what others are doing, try these!</p>
         </div>
         <div id="TryBody">
-            <%- include("Partials/tryThese.ejs",{}) -%>
+            <%- include("Partials/tryThese.ejs",activsList) -%>
         </div>
     </div>
 <%- include("Layouts/footer") -%>
