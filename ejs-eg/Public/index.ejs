@@ -7,14 +7,15 @@
 <body>
 <div class="pageContainer">
     <div class="content">
+        
         <div id="LoginSignup" class="container centerContainer loginContainer">
             <div id="LoginSignupHeader" class="headerBar progressHeader">
                 Log In
             </div>
             <form action="/login" method="post">
                 <div class="progressBars loginInputs">
-                    <input type="text" name="LoginUsername" id="LoginUsername" placeholder="Email Address" class="loginInputFields"> <br>
-                    <input type="text" name="LoginPassword" id="LoginPassword" placeholder="Password" class="loginInputFields"> <br>
+                    <input type="text" name="username" id="LoginUsername" placeholder="Username" class="loginInputFields"> <br>
+                    <input type="password" name="password" id="LoginPassword" placeholder="Password" class="loginInputFields"> <br>
                     <button type="submit" class="btn btn-primary statsAndGoalsButton loginButton">Log In</button>
                 </div>
             </form>
@@ -24,7 +25,7 @@
             <form action="/register" method="post">
                 <div class="progressBars loginInputs">
                     <input type="text" name="SignupUsername" id="SignupUsername" placeholder="Username" class="loginInputFields"> <br>
-                    <input type="text" name="SignupEmail" id="SignupEmail" placeholder="Email Address" class="loginInputFields"> <br>
+                    <input type="email" name="SignupEmail" id="SignupEmail" placeholder="Email Address" class="loginInputFields"> <br>
                     <input type="password" name="SignupPassword" id="SignupPassword" placeholder="Password" class="loginInputFields"> <br>
                     <input type="password" name="SignupConfirmPassword" id="SignupConfirmPassword" placeholder="Confirm Password" class="loginInputFields"> <br>
                     <button type="submit" class="btn btn-primary statsAndGoalsButton loginButton">Sign Up</button>
@@ -33,7 +34,7 @@
         </div>
     </div>
     <div class="footer">
-        <%- include("Layouts/footer") -%>
+        <%- include("../views/Layouts/footer") -%>
     </div>
 </div>
 </body>

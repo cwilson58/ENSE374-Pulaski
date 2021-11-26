@@ -19,6 +19,10 @@ app.use(express.static("Public"));
 // body-parser is now built into express!
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
+//Session and passport initialization
+app.use(session({secret:process.env.SECRET, resave:false, saveUninitialized:false}));
+app.use (passport.initialize());
+app.use (passport.session());
 //Code from stackoverflow at the following link: https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript?rq=1
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, "0");
@@ -158,6 +162,7 @@ app.post("/loginPage", (req, res) => {
   res.render("login");
 });
 app.post("/logout", (req, res) => {
+  req.logout();
   res.redirect("/");
 });
 
@@ -167,43 +172,45 @@ app.post("/currentStats", (req, res) => {
   });
 });
 app.get("/", (req, res) => {
-  console.log("accessing / ");
-  res.render("login");
+  res.render("../Public/index");
 });
 
+function renderHomePage(req,res, username)
+{
+  res.render("home", {
+    username: username,
+  });
+}
+
 app.post("/login", (req, res) => {
-  res.sendFile(__dirname + "/Public/index.html");
+    const user = new Users ({
+        username: req.body.username,
+        password: req.body.password
+    });
+    req.login ( user, ( err ) => {
+        if ( err ) {
+          console.log( err );
+          res.redirect( "/" );
+        } 
+        else {
+          passport.authenticate( "local" )( req, res, () => {
+            renderHomePage(req,res,req.user.username);
+          });
+        }
+    });
 });
+
 app.post("/register", async (req, res) => {
   var newId = await getNextId(Users);
-  console.log(
-    "User " +
-      req.body.SignupUsername +
-      " is attempting to register, email:" +
-      req.body.SignupEmail +
-      ", password:" +
-      req.body.SignupPassword +
-      ", confirm password:" +
-      req.body.SignupConfirmPassword +
-      ", id:" +
-      newId
-  );
-  Users.register(
-    {
-      _id: newId,
-      email: req.body.SignupEmail,
-      username: req.body.SignupUsername,
-    },
-    req.body.SignupPassword,
-    (err, user) => {
-      if (err) {
-        console.log(err);
-        res.redirect("/");
-      } else {
-        passport.authenticate("local");
-        console.log("Registered, redirecting to home");
-        res.sendFile(__dirname + "/Public/index.html");
-      }
-    }
-  );
+  Users.register({ _id:newId , email:req.body.SignupEmail , username:req.body.SignupUsername }, req.body.SignupPassword,
+                    ( err, user ) => {
+        if ( err ) {
+        console.log( err );
+            res.redirect( "/" );
+        }
+        else {
+          passport.authenticate( "local");
+          renderHomePage(req,res, req.body.SignupUsername);
+        }
+    });
 });
