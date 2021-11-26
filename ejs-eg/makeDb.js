@@ -488,7 +488,6 @@ async function saveDetails() {
   await detail.save();
   console.log("Details Saved");
 }
-//this makes the dbs using the above then closes the program.
 async function makeDbs() {
   await saveUsers();
   await saveStats();
@@ -498,5 +497,4 @@ async function makeDbs() {
   console.log("projectPAT database has been created!");
   process.exit(1); //Make sure everything saves then exit the js program
 }
-
 makeDbs();

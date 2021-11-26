@@ -43,10 +43,9 @@ async function getNextId(collection) {
       nextAvailValidId = parseInt(idNum) + 1;
     }
   });
-  console.log(nextAvailValidId);
   return nextAvailValidId;
 }
-async function RenderLogPage(req, res, usersName, usersId, logsDate) {
+async function renderLogPage(req, res, usersName, usersId, logsDate) {
   let activsToRender = await Activities.find({ parentLogId: 0 });
   let logId = await Logs.find({ ownerId: usersId, date: logsDate });
   let loggedActivsToRender = await Activities.find({
@@ -69,7 +68,7 @@ async function RenderLogPage(req, res, usersName, usersId, logsDate) {
   });
 }
 app.post("/logActivity", (req, res) => {
-  RenderLogPage(req, res, "CameronTestUser", 0, "2021-12-22");
+  renderLogPage(req, res, "CameronTestUser", 0, "2021-12-22");
 });
 app.post("/addAnotherActivity", async (req, res) => {
   //the current logs information and add a blank detail to the log
@@ -86,9 +85,70 @@ app.post("/addAnotherActivity", async (req, res) => {
   });
   newActivity.save().then(() => {
     console.log("AN ACTIVITY HAS BEEN ADDED for log " + logsId);
-    RenderLogPage(req, res, usersName, usersId, date);
+    renderLogPage(req, res, usersName, usersId, date);
   });
   console.log("ADD");
+});
+app.post("/selectActivity", async (req, res) => {
+  var selectedActivityId = req.body.HiddenActivityId;
+  var selectedActivityName = req.body.Activity;
+  var parentActivity = await Activities.findOne({
+    parentlogId: 0,
+    activityName: selectedActivityName,
+  });
+  if (parentActivity != undefined) {
+    await Activities.findOneAndUpdate(
+      { _id: selectedActivityId },
+      {
+        activityName: selectedActivityName,
+        activityType: parentActivity.activityType,
+      }
+    );
+    var baseDetailId = await getNextId(Details);
+    const baseDetail = new Details({
+      _id: baseDetailId,
+      activityId: selectedActivityId,
+      setNumber: 0,
+      reps: null,
+      weight: null,
+      timeInSeconds: null,
+      distance: null,
+      units: null,
+    });
+    baseDetail.save().then(() => {
+      console.log(
+        "A blank detail was added for activity id: " + selectedActivityId
+      );
+      renderLogPage(req, res, "CameronTestUser", 0, "2021-12-22");
+    });
+  }
+});
+app.post("/editActivityDetails", async (req, res) => {
+  var newSeconds = parseInt(req.body.Seconds) + parseInt(60 * req.body.Min);
+  var newDistance = req.body.Distance;
+  var newUnits = req.body.Units;
+  if (!isNaN(newSeconds) && !isNaN(newDistance)) {
+    await Details.findOneAndUpdate(
+      { _id: req.body.detailId },
+      { timeInSeconds: newSeconds, distance: newDistance, units: newUnits }
+    );
+  } else if (!isNaN(req.body.Reps) || !isNaN(req.body.Weight)) {
+    await Details.findOneAndUpdate(
+      { _id: req.body.detailId },
+      { reps: req.body.Reps, weight: req.body.Weight, units: newUnits }
+    );
+  } else if (!isNaN(newSeconds) || isNaN(newDistance)) {
+    await Details.findOneAndUpdate(
+      { _id: req.body.detailId },
+      { timeInSeconds: newSeconds }
+    );
+  } else if (isNaN(newSeconds) || !isNaN(newDistance)) {
+    await Details.findOneAndUpdate(
+      { _id: req.body.detailId },
+      { distance: newDistance, units: newUnits }
+    );
+  }
+  renderLogPage(req, res, "CameronTestUser", 0, "2021-12-22");
 });
 app.post("/home", (req, res) => {
   res.redirect("/");
@@ -112,21 +172,38 @@ app.get("/", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  res.sendFile( __dirname + "/Public/index.html" );
+  res.sendFile(__dirname + "/Public/index.html");
 });
 app.post("/register", async (req, res) => {
   var newId = await getNextId(Users);
-  console.log( "User " + req.body.SignupUsername + " is attempting to register, email:" + req.body.SignupEmail + ", password:" + req.body.SignupPassword + ", confirm password:" + req.body.SignupConfirmPassword + ", id:" + newId);
-  Users.register({ _id:newId , email:req.body.SignupEmail , username:req.body.SignupUsername }, req.body.SignupPassword,
-                    ( err, user ) => {
-        if ( err ) {
-        console.log( err );
-            res.redirect( "/" );
-        }
-        else {
-          passport.authenticate( "local");
-          console.log("Registered, redirecting to home");
-          res.sendFile( __dirname + "/Public/index.html" );
-        }
-    });
+  console.log(
+    "User " +
+      req.body.SignupUsername +
+      " is attempting to register, email:" +
+      req.body.SignupEmail +
+      ", password:" +
+      req.body.SignupPassword +
+      ", confirm password:" +
+      req.body.SignupConfirmPassword +
+      ", id:" +
+      newId
+  );
+  Users.register(
+    {
+      _id: newId,
+      email: req.body.SignupEmail,
+      username: req.body.SignupUsername,
+    },
+    req.body.SignupPassword,
+    (err, user) => {
+      if (err) {
+        console.log(err);
+        res.redirect("/");
+      } else {
+        passport.authenticate("local");
+        console.log("Registered, redirecting to home");
+        res.sendFile(__dirname + "/Public/index.html");
+      }
+    }
+  );
 });

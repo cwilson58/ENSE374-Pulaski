@@ -8,79 +8,168 @@
     <title>Log Activity</title>
 </head>
 <body>
-    <%- include("Partials/headerBar.ejs",{}) -%>
-    <div id="TodaysLog" class="container centerContainer">
-        <div id="TodaysLogHeader" class="headerBar">
-            <p>Activites for <%= date %>
-                <button class="btn navBtn">Find New Activities!</button>
-            </p>
-        </div>
-        <div id="TodaysLogContent" ></div>
-        <table class="centerContainer">
-            <% for (let activity of loggedActivsList) { %>
-                <tr>
-                        <td>
-                            <div id="ActivityType">
-                                <%if(activity.activityType == null){%>
-                                    <%- include("Partials/selectActivityForm.ejs", activsList) -%>
-                                </td>
+<%- include("Partials/headerBar.ejs",{}) -%>
+<div id="TodaysLog" class="container centerContainer">
+    <div id="TodaysLogHeader" class="headerBar">
+        <p>Activites for <%= date %>
+            <button class="btn navBtn">Find New Activities!</button>
+        </p>
+    </div>
+    <div id="TodaysLogContent" ></div>
+    <table class="centerContainer">
+    <% for (let activity of loggedActivsList) { %>
+        <tr>
+            <td>
+                <div id="ActivityType">
+                    <%if(activity.activityType == null){%>
+                        <form action="selectActivity" method = "post">
+                            <input type="hidden" name="HiddenActivityId" value=<%=activity._id%>>
+                            <select name="Activity" id="SelectActivityDropDown" onchange="this.form.submit()">
+                                <option value="default">Select Activity</option>
+                                <% for (let item of activsList) { %>
+                                    <option value='<%=item.activityName%>'><%=item.activityName%></option>
+                                <%}%>
+                            </select>
+                        </form>
+                    </td>
+                    <%} else { %>
+                    <input type="hidden" name="HiddenActivityId" value=<%=activity._id%>>
+                    <select>
+                        <option><%= activity.activityName %></option>
+                    </select>
+                </div>
+            </td>
+            <td>    
+                <div id="ActivityDetails">
+                    <%if(activity.activityType == "SetsAndReps") {%>
+                        <div id="SetTable">
+                            <% for (let detail of activDetailList ) { 
+                                if(activity._id == detail.activityId) {
+                                %> <form action="editActivityDetails" method="post"> <%
+                                    if(detail.reps == "" || detail.reps == null || detail.reps == 0) {%>
+                                        <input type="text" name="Reps" id="Reps" placeholder= "reps">
+                                        <input type="text" name="Weight" id="Weight" placeholder= "weight">
+                                        <select name="Units" id="Units">
+                                            <option value="Default">Units</option>
+                                            <option value="Pounds">Pounds</option>
+                                            <option value="Kilograms">Kilograms</option>
+                                        </select>
+                                    <%} else { %>
+                                        <input type="text" name="Reps" id="Reps" value= <%=detail.reps %>>
+                                        <input type="text" name="Weight" id="Weight" value= <%=detail.weight %>>
+                                        <select name="Units" id="Units">
+                                            <option value=<%= detail.units%>><%= detail.units%></option>
+                                            <option value="Pounds">Pounds</option>
+                                            <option value="Kilograms">Kilograms</option>
+                                        </select>
+                                    <%} %>
+                                    <input type="hidden" name="detailId" value=<%=detail._id %>>
+                                    <input type="submit" value="Save Set" class="btn">
+                                %> </form> <%
+                                }
+                            }%>
+                        </div>
+                    <% } else if(activity.activityType == "TimeAndDistance"){%>
+                        <% for (let detail of activDetailList ) { 
+                            if(activity._id == detail.activityId) { 
+                            %><form action="editActivityDetails" method="post"><%
+                                if(detail.timeInSeconds == null) {%>
+                                    <input type="number" name="Min" id="Min" placeholder="Min">
+                                    <input type="number" name ="Seconds" id="Seconds" placeholder="Seconds">
+                                    <br>
+                                    <input type="number" name="Distance" id="Distance" placeholder="Distance">
+                                    <select name="Units" id="Units">
+                                        <option value="Meters">Meters</option>
+                                        <option value="Kilometers">Kilometers</option>
+                                        <option value="Yards">Yards</option>
+                                        <option value="Miles">Miles</option>
+                                    </select>
                                 <%} else { %>
-                                <!--Forms done with ejs partials-->
-                                <select>
-                                    <option><%= activity.activityName %></option>
-                                </select>
-                            </div>
-                        </td>
-                        <td>    
-                            <div id="ActivityDetails">
-                                <%if(activity.activityType == "SetsAndReps") {%>
-                                    <div id="SetTable">
-                                        <% for (let detail of activDetailList ) { 
-                                            if(activity._id == detail.activityId) {
-                                            %> <form action="" method="post"> <%
-                                                if(detail.reps == "" || detail.reps == null || detail.reps == 0) {%>
-                                                    <input type="text" name="Reps" id="Reps" placeholder= "reps">
-                                                    <input type="text" name="Weight" id="Weight" placeholder= "weight">
-                                                    <input type="text" name="Units" id="Units" placeholder= "units">
-                                                    <br>
-                                                <%} else { %>
-                                                    <input type="text" name="Reps" id="Reps" value= <%=detail.reps %>>
-                                                    <input type="text" name="Weight" id="Weight" value= <%=detail.weight %>>
-                                                    <input type="text" name="Units" id="Units" value= <%=detail.units %>>
-                                                    <br> 
-                                                <%}
-                                            %> </form> <%
-                                            } else { %>
-                                                <p> <%= activity._id %> </p>
-                                            <%}
-                                        }%>
-                                    </div>
-                                <% } else {%>
-                                    <%- include("Partials/timeDistanceBasedForm.ejs",activity, activDetailList) -%>
-                                <% } %>
-                            </div>
-                        </td>
-                        <%}%>
-                </tr>
+                                    <input type="number" name="Min" id="Min" value=<%= parseInt(detail.timeInSeconds / 60) %>>
+                                    <input type="number" name ="Seconds" id="Seconds" value=<%= parseInt(detail.timeInSeconds % 60) %>>
+                                    <br>
+                                    <input type="text" name="Distance" id="Distance" value=<%=detail.distance %>>
+                                    <select name="Units" id="Units">
+                                        <option value=<%= detail.units%>><%= detail.units%></option>
+                                        <option value="Meters">Meters</option>
+                                        <option value="Kilometers">Kilometers</option>
+                                        <option value="Yards">Yards</option>
+                                        <option value="Miles">Miles</option>
+                                    </select>
+                                <%}%>
+                                <input type="hidden" name="detailId" value=<%=detail._id %>>
+                                <input type="submit" value="Save Activity" class="btn">
+                            </form> <%
+                            }
+                        } %>
+                    <%} else if(activity.activityType == "SetsAndTime") { %>
+                        <% for (let detail of activDetailList ) { 
+                            if(activity._id == detail.activityId) { 
+                            %><form action="editActivityDetails" method="post"><%
+                                if(detail.timeInSeconds == null) {%>
+                                    <input type="number" name="Min" id="Min" placeholder="Minutes">
+                                    <input type="number" name ="Seconds" id="Seconds" placeholder="Seconds">
+                                <%} else { %>
+                                    <input type="number" name="Min" id="Min" value=<%= parseInt(detail.timeInSeconds / 60) %>>
+                                    <input type="number" name ="Seconds" id="Seconds" value=<%= parseInt(detail.timeInSeconds % 60) %>>
+                                <%}%>
+                                <input type="hidden" name="detailId" value=<%=detail._id %>>
+                                <input type="submit" value="Save Set" class="btn">
+                            </form> <%
+                            }
+                        } %>
+                    <%} else if(activity.activityType == "SetsAndDistance"){%>
+                        <% for (let detail of activDetailList ) { 
+                            if(activity._id == detail.activityId) { 
+                            %><form action="editActivityDetails" method="post"><%
+                                if(detail.distance == null) {%>
+                                    <input type="number" name="Distance" id="Distance" placeholder="Distance">
+                                    <select name="Units" id="Units">
+                                        <option value="Meters">Meters</option>
+                                        <option value="Kilometers">Kilometers</option>
+                                        <option value="Yards">Yards</option>
+                                        <option value="Miles">Miles</option>
+                                    </select>
+                                <%} else { %>
+                                    <input type="text" name="Distance" id="Distance" value=<%=detail.distance %>>
+                                    <select name="Units" id="Units">
+                                        <option value=<%= detail.units%>><%= detail.units%></option>
+                                        <option value="Meters">Meters</option>
+                                        <option value="Kilometers">Kilometers</option>
+                                        <option value="Yards">Yards</option>
+                                        <option value="Miles">Miles</option>
+                                    </select>
+                                <%}%>
+                                <input type="hidden" name="detailId" value=<%=detail._id %>>
+                                <input type="submit" value="Save Set" class="btn">
+                            </form> <%
+                            }
+                        } %>
+                    <%}else { %>
+                        <p>We're sorry! There was a type mismatch for <%= activity.activityType %></p>
+                    <%}%>
+                </div>
+            </td>
             <%}%>
-            <tr>
-                <td>
-                    <%- include("Partials/selectActivityForm.ejs", activsList) -%>
-                    <form action="addAnotherActivity" method="post">
-                        <input type="hidden" name="CurrLogsId" value=<%= logsId %>>
-                        <button class="btn">Add Another Activity</button>
-                    </form>
-                    <button class="btn">Save</button>
-                </td>
-            </tr>
-        </table>
+        </tr>
+    <%}%>
+    <tr>
+        <td>
+            <form action="addAnotherActivity" method="post">
+                <input type="hidden" name="CurrLogsId" value=<%= logsId %>>
+                <button class="btn">Add Another Activity</button>
+            </form>
+            <button class="btn">Save</button>
+        </td>
+    </tr>
+    </table>
+</div>
+<div id="TryThese" class="container centerContainer">
+    <div id="TryHeader" class="headerBar">
+        <p>Based on what others are doing, try these!</p>
     </div>
-    <div id="TryThese" class="container centerContainer">
-        <div id="TryHeader" class="headerBar">
-            <p>Based on what others are doing, try these!</p>
-        </div>
-        <div id="TryBody">
-            <%- include("Partials/tryThese.ejs",activsList) -%>
-        </div>
+    <div id="TryBody">
+        <%- include("Partials/tryThese.ejs",activsList) -%>
     </div>
+</div>
 <%- include("Layouts/footer") -%>
