@@ -280,3 +280,8 @@ body {
   border-color: var(--darkContentColour);
   font-size: medium;
 }
+.incorrectMessage
+{
+    color:red;
+    text-decoration:underline;
+}

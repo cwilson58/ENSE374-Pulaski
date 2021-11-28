@@ -11,23 +11,24 @@
             <div id="LoginSignupHeader" class="headerBar progressHeader">
                 Log In
             </div>
-            <form action="/login" method="post">
+            <form action="/login" method="post" id="loginForm">
                 <div class="progressBars loginInputs">
                     <input type="text" name="username" id="LoginUsername" placeholder="Username" class="loginInputFields"> <br>
                     <input type="password" name="password" id="LoginPassword" placeholder="Password" class="loginInputFields"> <br>
-                    <button type="submit" class="btn btn-primary statsAndGoalsButton loginButton">Log In</button>
+                    <button type="submit" class="btn btn-primary statsAndGoalsButton loginButton">Log In</button> <br> <br>
                 </div>
             </form>
             <div id="LoginSignupHeader" class="headerBar progressHeader">
                 Sign Up
             </div>
-            <form action="/register" method="post">
+            <form action="/register" method="post" id="signupForm">
                 <div class="progressBars loginInputs">
                     <input type="text" name="SignupUsername" id="SignupUsername" placeholder="Username" class="loginInputFields"> <br>
                     <input type="email" name="SignupEmail" id="SignupEmail" placeholder="Email Address" class="loginInputFields"> <br>
                     <input type="password" name="SignupPassword" id="SignupPassword" placeholder="Password" class="loginInputFields"> <br>
                     <input type="password" name="SignupConfirmPassword" id="SignupConfirmPassword" placeholder="Confirm Password" class="loginInputFields"> <br>
-                    <button type="submit" class="btn btn-primary statsAndGoalsButton loginButton">Sign Up</button>
+                    <button type="submit" class="btn btn-primary statsAndGoalsButton loginButton">Sign Up</button> <br>
+                    <span style="color:var(--darkContentColour);"><%= signupMessage %></span>
                 </div>
             </form>
         </div>

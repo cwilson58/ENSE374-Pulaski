@@ -12,6 +12,7 @@ const UserStats = require("./Models/stats");
 const Activities = require("./Models/activity");
 const Logs = require("./Models/logs");
 const Details = require("./Models/details");
+const { removeAllListeners } = require("nodemon");
 // this is a canonical alias to make your life easier, like jQuery to $.
 const app = express();
 // host static resources
@@ -238,9 +239,6 @@ app.post("/removeSet", async (req, res) => {
     renderLogPage(req, res, req.user.username, 0, date);
   });
 });
-app.post("/home", (req, res) => {
-  res.redirect("/");
-});
 app.post("/removeActivity", async (req, res) => {
   var usersName = req.user.username;
   var usersId = 0;
@@ -258,8 +256,13 @@ app.post("/logout", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.render("../Public/index");
+  renderLoginPage(req,res,"");
 });
+function renderLoginPage(req,res,signupMessage){
+  res.render("../Public/index", {
+    signupMessage:signupMessage
+  });
+}
 
 function renderHomePage(req, res, username) {
   res.render("home", {
@@ -313,7 +316,7 @@ app.post("/register", async (req, res) => {
           units: "Stats",
         });
         usersStats.save();
-        renderHomePage(req, res, req.body.SignupUsername);
+        renderLoginPage(req,res,"Signup complete, please log in!");
       }
     }
   );
