@@ -106,10 +106,10 @@
                             if(activity._id == detail.activityId) { 
                             %><form action="editActivityDetails" method="post"><%
                                 if(detail.timeInSeconds == null) {%>
-                                    <input type="number" name="Min" id="Min" placeholder="Min">
-                                    <input type="number" name ="Seconds" id="Seconds" placeholder="Seconds">
+                                    <input type="number" name="Min" id="Min" placeholder="Min" step="0.01">
+                                    <input type="number" name ="Seconds" id="Seconds" placeholder="Seconds" step="0.01">
                                     <br>
-                                    <input type="number" name="Distance" id="Distance" placeholder="Distance">
+                                    <input type="number" name="Distance" id="Distance" placeholder="Distance" step="0.01">
                                     <select name="Units" id="Units">
                                         <option value="Meters">Meters</option>
                                         <option value="Kilometers">Kilometers</option>
@@ -117,8 +117,8 @@
                                         <option value="Miles">Miles</option>
                                     </select>
                                 <%} else { %>
-                                    <input type="number" name="Min" id="Min" value=<%= parseInt(detail.timeInSeconds / 60) %>>
-                                    <input type="number" name ="Seconds" id="Seconds" value=<%= parseInt(detail.timeInSeconds % 60) %>>
+                                    <input type="number" name="Min" id="Min" step="0.01" value=<%= parseInt(detail.timeInSeconds / 60) %> >
+                                    <input type="number" name ="Seconds" id="Seconds" step="0.01" value=<%= parseInt(detail.timeInSeconds % 60) %>>
                                     <br>
                                     <input type="text" name="Distance" id="Distance" value=<%=detail.distance %>>
                                     <select name="Units" id="Units">
@@ -140,11 +140,11 @@
                             if(activity._id == detail.activityId) { 
                             %><form action="editActivityDetails" method="post"><%
                                 if(detail.timeInSeconds == null) {%>
-                                    <input type="number" name="Min" id="Min" placeholder="Minutes">
-                                    <input type="number" name ="Seconds" id="Seconds" placeholder="Seconds">
+                                    <input type="number" name="Min" id="Min" placeholder="Minutes" step="0.01">
+                                    <input type="number" name ="Seconds" id="Seconds" placeholder="Seconds" tep="0.01">
                                 <%} else { %>
-                                    <input type="number" name="Min" id="Min" value=<%= parseInt(detail.timeInSeconds / 60) %>>
-                                    <input type="number" name ="Seconds" id="Seconds" value=<%= parseInt(detail.timeInSeconds % 60) %>>
+                                    <input type="number" name="Min" id="Min" step="0.01" value=<%= parseInt(detail.timeInSeconds / 60) %>>
+                                    <input type="number" name ="Seconds" id="Seconds" step="0.01" value=<%= parseInt(detail.timeInSeconds % 60) %>>
                                 <%}%>
                                 <input type="hidden" name="detailId" value=<%=detail._id %>>
                                 <input type="submit" value="Save Set" class="btn">
@@ -157,7 +157,7 @@
                             if(activity._id == detail.activityId) { 
                             %><form action="editActivityDetails" method="post"><%
                                 if(detail.distance == null) {%>
-                                    <input type="number" name="Distance" id="Distance" placeholder="Distance">
+                                    <input type="number" name="Distance" id="Distance" placeholder="Distance" step="0.01">
                                     <select name="Units" id="Units">
                                         <option value="Meters">Meters</option>
                                         <option value="Kilometers">Kilometers</option>
