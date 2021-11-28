@@ -1,9 +1,0 @@
-<form action="selectActivity" method = "post">
-    <input type="hidden" name="HiddenActivityId" value=<%=activity._id%>>
-    <select name="Activity" id="SelectActivityDropDown" onchange="this.form.submit()">
-        <option value="default">Select Activity</option>
-        <% for (let item of activsList) { %>
-            <option value=<%=item.activityName%>><%=item.activityName%></option>
-        <%}%>
-    </select>
-</form>

@@ -24,12 +24,33 @@
                     <%if(activity.activityType == null){%>
                         <form action="selectActivity" method = "post">
                             <input type="hidden" name="HiddenActivityId" value=<%=activity._id%>>
+                            <input type="hidden" name="DateForLog" id="DateForLog" value=<%= date%>>
                             <select name="Activity" id="SelectActivityDropDown" onchange="this.form.submit()">
                                 <option value="default">Select Activity</option>
+                                <option value="newActivity">Add a new Activity</option>
                                 <% for (let item of activsList) { %>
                                     <option value='<%=item.activityName%>'><%=item.activityName%></option>
                                 <%}%>
                             </select>
+                        </form>
+                        <form action="removeActivity" method="post">
+                            <input type="hidden" name="ActivityToRemove" value=<%=activity._id%>>
+                            <input type="hidden" name="DateForLog" id="DateForLog" value=<%= date%>>
+                            <input type="submit" value="Remove Activity" class ="btn">
+                        </form>
+                    </td>
+                    <%} else if(activity.activityType == "no"){%>
+                        <form action="editNewActivity" method="post">
+                            <select name="newActivityType" id="newActivityType">
+                                <option value="SetsAndReps">Set and Reps</option>
+                                <option value="TimeAndDistance">Time and Distance</option>
+                                <option value="SetsAndTime">Set and Time</option>
+                                <option value="SetsAndDistance">Set and Distance</option>
+                            </select>
+                            <input type="text" name="newActivityName" id="newActivityName" placeholder="name">
+                            <input type="hidden" name="newActivityId" value=<%=activity._id%>>
+                            <input type="hidden" name="DateForLog" id="DateForLog" value=<%= date%>>
+                            <input type="submit" value="Save To The Database" class ="btn">
                         </form>
                     </td>
                     <%} else { %>
@@ -65,6 +86,7 @@
                                     <%} %>
                                     <input type="hidden" name="detailId" value=<%=detail._id %>>
                                     <input type="submit" value="Save Set" class="btn">
+                                    <input type="hidden" name="DateForLog" id="DateForLog" value=<%= date%>>
                                 %> </form> <%
                                 }
                             }%>
@@ -99,6 +121,7 @@
                                 <%}%>
                                 <input type="hidden" name="detailId" value=<%=detail._id %>>
                                 <input type="submit" value="Save Activity" class="btn">
+                                <input type="hidden" name="DateForLog" id="DateForLog" value=<%= date%>>
                             </form> <%
                             }
                         } %>
@@ -115,6 +138,7 @@
                                 <%}%>
                                 <input type="hidden" name="detailId" value=<%=detail._id %>>
                                 <input type="submit" value="Save Set" class="btn">
+                                <input type="hidden" name="DateForLog" id="DateForLog" value=<%= date%>>
                             </form> <%
                             }
                         } %>
@@ -142,21 +166,29 @@
                                 <%}%>
                                 <input type="hidden" name="detailId" value=<%=detail._id %>>
                                 <input type="submit" value="Save Set" class="btn">
+                                <input type="hidden" name="DateForLog" id="DateForLog" value=<%= date%>>
                             </form> <%
                             }
                         } %>
                     <%}else { %>
                         <p>We're sorry! There was a type mismatch for <%= activity.activityType %></p>
                     <%}%>
+                    <form action="removeActivity" method="post">
+                        <input type="hidden" name="ActivityToRemove" value=<%=activity._id%>>
+                        <input type="hidden" name="DateForLog" id="DateForLog" value=<%= date%>>
+                        <input type="submit" value="Remove Activity" class ="btn">
+                    </form>
                 </div>
             </td>
             <%}%>
+            
         </tr>
     <%}%>
     <tr>
         <td>
             <form action="addAnotherActivity" method="post">
                 <input type="hidden" name="CurrLogsId" value=<%= logsId %>>
+                <input type="hidden" name="DateForLog" id="DateForLog" value=<%= date%>>
                 <button class="btn">Add Another Activity</button>
             </form>
             <button class="btn">Save</button>

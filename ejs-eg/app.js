@@ -20,9 +20,15 @@ app.use(express.static("Public"));
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 //Session and passport initialization
-app.use(session({secret:process.env.SECRET, resave:false, saveUninitialized:false}));
-app.use (passport.initialize());
-app.use (passport.session());
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 //Code from stackoverflow at the following link: https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript?rq=1
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, "0");
@@ -72,13 +78,13 @@ async function renderLogPage(req, res, usersName, usersId, logsDate) {
   });
 }
 app.post("/logActivity", (req, res) => {
-  renderLogPage(req, res, "CameronTestUser", 0, "2021-12-22");
+  renderLogPage(req, res, req.user.username, 0, "2021-12-22");
 });
 app.post("/addAnotherActivity", async (req, res) => {
   //the current logs information and add a blank detail to the log
-  var usersName = "CameronTestUser";
+  var usersName = req.user.username;
   var usersId = 0;
-  var date = "2021-12-22";
+  var date = req.body.DateForLog;
   var newActivsId = await getNextId(Activities);
   var logsId = req.body.CurrLogsId;
   const newActivity = new Activities({
@@ -88,10 +94,8 @@ app.post("/addAnotherActivity", async (req, res) => {
     activityType: null,
   });
   newActivity.save().then(() => {
-    console.log("AN ACTIVITY HAS BEEN ADDED for log " + logsId);
     renderLogPage(req, res, usersName, usersId, date);
   });
-  console.log("ADD");
 });
 app.post("/selectActivity", async (req, res) => {
   var selectedActivityId = req.body.HiddenActivityId;
@@ -123,7 +127,32 @@ app.post("/selectActivity", async (req, res) => {
       console.log(
         "A blank detail was added for activity id: " + selectedActivityId
       );
-      renderLogPage(req, res, "CameronTestUser", 0, "2021-12-22");
+      renderLogPage(req, res, req.user.username, 0, req.body.DateForLog);
+    });
+  } else if ((selectedActivityName = "newActivity")) {
+    console.log("add new!");
+    var newActivsId = await getNextId(Activities);
+    newActivity = new Activities({
+      _id: newActivsId,
+      parentLogId: 0,
+      activityName: "new activity being made",
+      activityType: "no",
+    });
+    await newActivity.save();
+    var usersId = 0;
+    var usersPersonalActivityId = await getNextId(Activities);
+    let logId = await Logs.find({
+      ownerId: usersId,
+      date: req.body.DateForLog,
+    });
+    newActivity = new Activities({
+      _id: usersPersonalActivityId,
+      parentLogId: logId[0]._id,
+      activityName: "new activity being made",
+      activityType: "no",
+    });
+    newActivity.save().then(() => {
+      renderLogPage(req, res, req.user.username, 0, req.body.DateForLog);
     });
   }
 });
@@ -152,12 +181,48 @@ app.post("/editActivityDetails", async (req, res) => {
       { distance: newDistance, units: newUnits }
     );
   }
-  renderLogPage(req, res, "CameronTestUser", 0, "2021-12-22");
+  renderLogPage(req, res, req.user.username, 0, req.body.DateForLog);
+});
+app.post("/editNewActivity", async (req, res) => {
+  var newName = req.body.newActivityName;
+  var newType = req.body.newActivityType;
+  var newId = req.body.newActivityId;
+  if (newName != null && newType != null) {
+    await Activities.findOneAndUpdate(
+      { _id: newId },
+      { activityName: newName, activityType: newType }
+    );
+    var nextDetailId = await getNextId(Details);
+    newDetail = new Details({
+      _id: nextDetailId,
+      activityId: newId,
+      setNumber: 1,
+      reps: null,
+      weight: null,
+      timeInSeconds: null,
+      distance: null,
+      units: null,
+    });
+    await newDetail.save();
+    Activities.findOneAndUpdate(
+      { activityType: "no" },
+      { activityName: newName, activityType: newType }
+    ).then(() => {
+      renderLogPage(req, res, req.user.username, 0, req.body.DateForLog);
+    });
+  }
 });
 app.post("/home", (req, res) => {
   res.redirect("/");
 });
-
+app.post("/removeActivity", async (req, res) => {
+  var usersName = req.user.username;
+  var usersId = 0;
+  var activityId = req.body.ActivityToRemove;
+  Activities.findOneAndRemove({ _id: activityId }).then(() => {
+    renderLogPage(req, res, usersName, usersId, req.body.DateForLog);
+  });
+});
 app.post("/loginPage", (req, res) => {
   res.render("login");
 });
@@ -175,42 +240,46 @@ app.get("/", (req, res) => {
   res.render("../Public/index");
 });
 
-function renderHomePage(req,res, username)
-{
+function renderHomePage(req, res, username) {
   res.render("home", {
     username: username,
   });
 }
 
 app.post("/login", (req, res) => {
-    const user = new Users ({
-        username: req.body.username,
-        password: req.body.password
-    });
-    req.login ( user, ( err ) => {
-        if ( err ) {
-          console.log( err );
-          res.redirect( "/" );
-        } 
-        else {
-          passport.authenticate( "local" )( req, res, () => {
-            renderHomePage(req,res,req.user.username);
-          });
-        }
-    });
+  const user = new Users({
+    username: req.body.username,
+    password: req.body.password,
+  });
+  req.login(user, (err) => {
+    if (err) {
+      console.log(err);
+      res.redirect("/");
+    } else {
+      passport.authenticate("local")(req, res, () => {
+        renderHomePage(req, res, req.user.username);
+      });
+    }
+  });
 });
 
 app.post("/register", async (req, res) => {
   var newId = await getNextId(Users);
-  Users.register({ _id:newId , email:req.body.SignupEmail , username:req.body.SignupUsername }, req.body.SignupPassword,
-                    ( err, user ) => {
-        if ( err ) {
-        console.log( err );
-            res.redirect( "/" );
-        }
-        else {
-          passport.authenticate( "local");
-          renderHomePage(req,res, req.body.SignupUsername);
-        }
-    });
+  Users.register(
+    {
+      _id: newId,
+      email: req.body.SignupEmail,
+      username: req.body.SignupUsername,
+    },
+    req.body.SignupPassword,
+    (err, user) => {
+      if (err) {
+        console.log(err);
+        res.redirect("/");
+      } else {
+        passport.authenticate("local");
+        renderHomePage(req, res, req.body.SignupUsername);
+      }
+    }
+  );
 });

@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
   TimeAndDistance
   SetsAndTime
   SetsAndDistance
+  no -> flag for someone inserting a new activity to the general db
 */
 const activitySchema = new mongoose.Schema({
   _id: Number,
