@@ -96,6 +96,7 @@ body {
   margin:0 auto;
   display:block;
   margin-bottom:1%;
+  margin-top:5%;
   padding-left:1%;
   padding-right:1%;
 }
@@ -268,4 +269,14 @@ body {
   margin-bottom:2%;
   text-align: left;
   resize: none;
+}
+.GoalsInputFields{
+  width: 50%;
+  margin: 1%;
+  height: 20px;
+  border: 1px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--darkContentColour);
+  font-size: medium;
 }

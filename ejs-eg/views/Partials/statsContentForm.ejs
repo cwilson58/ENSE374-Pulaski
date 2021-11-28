@@ -1,4 +1,4 @@
-<% if(state === "Ready")
+<%  if(statsState === "statsReady")
     { %>
         <form action="/editStats" method="post">
             <div id="StatsContent" style="padding:2.5%">
@@ -7,7 +7,7 @@
             </div>
         </form>
     <%}
-    else if(state === "Edit")
+    else if(statsState === "statsEdit")
     { %>
         <form action="/saveStats" method="post">
             <div id="StatsContent" style="padding:2.5%">

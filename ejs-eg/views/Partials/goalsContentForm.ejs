@@ -1,6 +1,37 @@
-<div id="Goals">
-    <span>Run for 5km</span><br>
-    <span>Eat 686 candy bars in a day</span><br>
-    <span>Lose 25 lbs</span><br>
-    <span>Achieve a highest single rep squat of 500lb</span><br>
-</div>
+<%  if(goalsState === "goalsReady")
+    { %>
+        <form action="/editGoals" method="post">
+            <div id="GoalsContent" style="padding:2.5%">
+                <% for(let goal of goalList)
+                {%>
+                    <span><%= goal.name %>:<%= goal.endPoint %><%= goal.units %> | Progress:<%= goal.currentPoint %><%= goal.units %></span> <span hidden><%= goal._id %></span><br>
+                <%}
+                %>
+                <button type="submit" id="EditGoalsBtn" class="btn btn-primary statsAndGoalsButton">Edit Goals</button>
+            </div>
+        </form>
+    <%}
+    else if(goalsState === "goalsEdit")
+    { %>
+        <form action="/saveGoals" method="post">
+            <div id="GoalsContent" style="padding:2.5%">
+                <% for(let goal of goalList)
+                {%> 
+                    <span name="id<%= goal._id %>" hidden><%= goal._id %></span>
+                    <span>Goal:</span> <input type="text" name="goal<%= goal._id %>" id="goal<%= goal._id %>" value="<%= goal.name %>" class="GoalsInputFields"> <br>
+                    <span>Starting point:</span> <input type="text" name="starting<%= goal._id %>" id="starting<%= goal._id %>" value="<%= goal.startingPoint %>" class="GoalsInputFields"> <br>
+                    <span>Current point:</span> <input type="text" name="current<%= goal._id %>" id="current<%= goal._id %>" value="<%= goal.currentPoint %>" class="GoalsInputFields"> <br>
+                    <span>End point:</span> <input type="text" name="end<%= goal._id %>" id="end<%= goal._id %>" value="<%= goal.endPoint %>" class="GoalsInputFields"> <br>
+                    <span>Units:</span> <input type="text" name="units<%= goal._id %>" id="units<%= goal._id %>" value="<%= goal.units %>" class="GoalsInputFields"> <br>
+                    <hr>
+                <%}
+                %>
+                <button type="submit" id="EditGoalsBtn" class="btn btn-primary statsAndGoalsButton">Save Goals</button>
+                <hr>
+            </div>
+        </form>
+        <form action="/addGoal" method="post">
+            <button type="submit" id="EditGoalsBtn" class="btn btn-primary statsAndGoalsButton">Add New Goal</button>
+        </form>
+    <%}
+%>

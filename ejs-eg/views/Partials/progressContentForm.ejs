@@ -1,18 +1,14 @@
 <div id="progressBars" class="progressBars">
-    <div id="Progress">
-        <span>Best Run: 1km</span> <span style="float:right;margin-right:10%">Goal:5km</span>
-        <div class="progressBorder">
-            <div class="progressInner" style="height:24px;width:20%"></div>
+    <% for(let goal of goalList)
+    {%>
+        <div id="Progress">
+            <span><%= goal.name %>: <%= goal.currentPoint %><%= goal.units %></span> <span style="float:right;margin-right:10%">Goal:<%= goal.endPoint %><%= goal.units %></span>
+            <div class="progressBorder">
+                <div class="progressInner" style="height:24px;max-width:100%;width:<%= Math.round((goal.currentPoint/goal.endPoint)*100) %>%"></div>
+            </div>
+            <br>
+            <span id="progressValue"><%= Math.round((goal.currentPoint/goal.endPoint)*100) %>%</span> <br> <br>
         </div>
-        <br>
-        <span id="progressValue">20%</span> <br> <br>
-    </div>
-    <div id="Progress">
-        <span>Most Candy Bars Eaten in a day: 22</span> <span style="float:right;margin-right:10%">Goal:686</span>
-        <div class="progressBorder">
-            <div class="progressInner" style="height:24px;width:1.6%"></div>
-        </div>
-        <br>
-        <span id="progressValue">3.2%</span> <br> <br>
-    </div>
+    <%}
+    %>
 </div>

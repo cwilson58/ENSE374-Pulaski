@@ -77,16 +77,16 @@ async function saveStats() {
     units: "lbs",
   });
   await usersStats.save();
-  // var usersStats = new UserStats({
-  //   _id: 4,
-  //   userId: 4,
-  //   name: "FUN FUN STATS CONTENT",
-  //   startingPoint: -1,
-  //   currentPoint: -1,
-  //   endPoint: -1,
-  //   units: "Stats",
-  // });
-  // await usersStats.save();
+  var usersStats = new UserStats({
+    _id: 4,
+    userId: 4,
+    name: "Goal 1 for testing",
+    startingPoint: 79,
+    currentPoint: 150,
+    endPoint: 243,
+    units: "lbs",
+  });
+  await usersStats.save();
   usersStats = new UserStats({
     _id: 1,
     userId: 1,

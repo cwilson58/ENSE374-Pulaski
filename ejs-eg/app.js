@@ -221,26 +221,63 @@ app.post("/register", async (req, res) => {
   });
 });
 
-async function renderStatsPage(req,res, username, usersId, state)
+async function renderStatsPage(req,res, username, usersId, statsState, goalsState)
 {
   let stats = await UserStats.find({ userId: usersId, startingPoint:-1});
+  let goals = await UserStats.find({ userId: usersId, startingPoint:{$gt: 0} });
+  //console.log("goals:"+goals);
   res.render("currentStats", {
     username: username,
     Stats: stats[0].name,
-    state: state
+    goalList: goals,
+    statsState: statsState,
+    goalsState: goalsState
   });
 }
 
 app.post("/currentStats", (req, res) => {
-  renderStatsPage(req,res,req.user.username,req.user._id, "Ready");
+  renderStatsPage(req,res,req.user.username,req.user._id, "statsReady", "goalsReady");
 });
 
 app.post("/editStats", (req, res) => {
-  renderStatsPage(req,res,req.user.username,req.user._id, "Edit");
+  renderStatsPage(req,res,req.user.username,req.user._id, "statsEdit", "goalsReady");
 });
 app.post("/saveStats", async (req, res) => {
   var textStats = req.body.textBoxStats;
   var usersId = req.user._id;
   await UserStats.findOneAndUpdate({ userId: usersId, startingPoint:-1},{name:textStats});
-  renderStatsPage(req,res,req.user.username,req.user._id, "Ready");
+  renderStatsPage(req,res,req.user.username,req.user._id, "statsReady",  "goalsReady");
+});
+
+app.post("/editGoals", (req, res) => {
+  renderStatsPage(req,res,req.user.username,req.user._id, "statsReady", "goalsEdit");
+});
+app.post("/saveGoals", async (req, res) => {
+  var usersId = req.user._id;
+  var goals = await UserStats.find({ userId: usersId, startingPoint:{$gt: 0} });
+  for(element of goals){
+    var idValue = element._id;
+    var newName = req.body["goal"+idValue];
+    var newStarting = req.body["starting"+idValue];
+    var newCurrent = req.body["current"+idValue];
+    var newEnd = req.body["end"+idValue];
+    var newUnits = req.body["units"+idValue];
+    await UserStats.findOneAndUpdate({ _id:idValue, userId: usersId} , { name:newName, startingPoint:newStarting, currentPoint:newCurrent, endPoint:newEnd, units:newUnits });
+  }
+  renderStatsPage(req,res,req.user.username,req.user._id, "statsReady",  "goalsReady");
+});
+app.post("/addGoal", async (req, res) => {
+  var newId = await getNextId(UserStats);
+  var usersId = req.user._id;
+  var usersStats = new UserStats({
+    _id: newId,
+    userId: usersId,
+    name: "NEW GOAL THAT WAS ADDED",
+    startingPoint: 1,
+    currentPoint: 1,
+    endPoint: 1,
+    units: "",
+  });
+  await usersStats.save();
+  renderStatsPage(req,res,req.user.username,req.user._id, "statsReady", "goalsEdit");
 });
