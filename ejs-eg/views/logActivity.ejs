@@ -87,8 +87,18 @@
                                     <input type="hidden" name="detailId" value=<%=detail._id %>>
                                     <input type="submit" value="Save Set" class="btn">
                                     <input type="hidden" name="DateForLog" id="DateForLog" value=<%= date%>>
-                                %> </form> <%
-                                }
+                                %> </form> 
+                                    <form action="addSet" method="post">
+                                        <input type="hidden" name="DateForLog" id="DateForLog" value=<%= date%>>
+                                        <input type="hidden" name="parentActivity" value=<%=activity._id%>>
+                                        <button class="btn" value="add">+ set</button>
+                                    </form>
+                                    <form action="removeSet" method="post">
+                                        <input type="hidden" name="DateForLog" id="DateForLog" value=<%= date%>>
+                                        <input type="hidden" name="parentActivity" value=<%=activity._id%>>
+                                        <button class="btn" value="remove">- set</button>
+                                    </form>
+                                <%}
                             }%>
                         </div>
                     <% } else if(activity.activityType == "TimeAndDistance"){%>

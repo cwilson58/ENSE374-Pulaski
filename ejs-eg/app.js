@@ -124,13 +124,9 @@ app.post("/selectActivity", async (req, res) => {
       units: null,
     });
     baseDetail.save().then(() => {
-      console.log(
-        "A blank detail was added for activity id: " + selectedActivityId
-      );
       renderLogPage(req, res, req.user.username, 0, req.body.DateForLog);
     });
   } else if ((selectedActivityName = "newActivity")) {
-    console.log("add new!");
     var newActivsId = await getNextId(Activities);
     newActivity = new Activities({
       _id: newActivsId,
@@ -212,6 +208,36 @@ app.post("/editNewActivity", async (req, res) => {
     });
   }
 });
+app.post("/addSet", async (req, res) => {
+  var parentId = req.body.parentActivity;
+  var date = req.body.DateForLog;
+  var nextId = await getNextId(Details);
+  let currDetails = await Details.find({ activityId: parentId });
+  newDetail = new Details({
+    _id: nextId,
+    activityId: parentId,
+    setNumber: parseInt(currDetails.length) + 1,
+    reps: null,
+    weight: null,
+    timeInSeconds: null,
+    distance: null,
+    units: null,
+  });
+  newDetail.save().then(() => {
+    renderLogPage(req, res, req.user.username, 0, date);
+  });
+});
+app.post("/removeSet", async (req, res) => {
+  var parentId = req.body.parentActivity;
+  var date = req.body.DateForLog;
+  let currDetails = await Details.find({ activityId: parentId });
+  Details.findOneAndRemove({
+    activityId: parentId,
+    setNumber: parseInt(currDetails.length),
+  }).then(() => {
+    renderLogPage(req, res, req.user.username, 0, date);
+  });
+});
 app.post("/home", (req, res) => {
   res.redirect("/");
 });
@@ -241,7 +267,7 @@ function renderHomePage(req, res, username) {
   });
 }
 app.post("/home", (req, res) => {
-  renderHomePage(req,res,req.user.username);
+  renderHomePage(req, res, req.user.username);
 });
 
 app.post("/login", (req, res) => {
@@ -264,49 +290,57 @@ app.post("/login", (req, res) => {
 app.post("/register", async (req, res) => {
   var newId = await getNextId(Users);
   var newStatsId = await getNextId(UserStats);
-  Users.register( { _id:newId , email:req.body.SignupEmail , username:req.body.SignupUsername }, req.body.SignupPassword,
-                    ( err, user ) => {
-        if ( err ) {
-          console.log( err );
-          res.redirect( "/" );
-        }
-        else {
-          passport.authenticate( "local");
-          var usersStats = new UserStats({
-            _id: newStatsId,
-            userId: newId,
-            name: "Insert your stats here!",
-            startingPoint: -1,
-            currentPoint: -1,
-            endPoint: -1,
-            units: "Stats",
-          });
-          usersStats.save()
-          renderHomePage(req,res, req.body.SignupUsername);
-        }
-  });
+  Users.register(
+    {
+      _id: newId,
+      email: req.body.SignupEmail,
+      username: req.body.SignupUsername,
+    },
+    req.body.SignupPassword,
+    (err, user) => {
+      if (err) {
+        console.log(err);
+        res.redirect("/");
+      } else {
+        passport.authenticate("local");
+        var usersStats = new UserStats({
+          _id: newStatsId,
+          userId: newId,
+          name: "Insert your stats here!",
+          startingPoint: -1,
+          currentPoint: -1,
+          endPoint: -1,
+          units: "Stats",
+        });
+        usersStats.save();
+        renderHomePage(req, res, req.body.SignupUsername);
+      }
+    }
+  );
 });
 
-async function renderStatsPage(req,res, username, usersId, state)
-{
-  let stats = await UserStats.find({ userId: usersId, startingPoint:-1});
+async function renderStatsPage(req, res, username, usersId, state) {
+  let stats = await UserStats.find({ userId: usersId, startingPoint: -1 });
   res.render("currentStats", {
     username: username,
     Stats: stats[0].name,
-    state: state
+    state: state,
   });
 }
 
 app.post("/currentStats", (req, res) => {
-  renderStatsPage(req,res,req.user.username,req.user._id, "Ready");
+  renderStatsPage(req, res, req.user.username, req.user._id, "Ready");
 });
 
 app.post("/editStats", (req, res) => {
-  renderStatsPage(req,res,req.user.username,req.user._id, "Edit");
+  renderStatsPage(req, res, req.user.username, req.user._id, "Edit");
 });
 app.post("/saveStats", async (req, res) => {
   var textStats = req.body.textBoxStats;
   var usersId = req.user._id;
-  await UserStats.findOneAndUpdate({ userId: usersId, startingPoint:-1},{name:textStats});
-  renderStatsPage(req,res,req.user.username,req.user._id, "Ready");
+  await UserStats.findOneAndUpdate(
+    { userId: usersId, startingPoint: -1 },
+    { name: textStats }
+  );
+  renderStatsPage(req, res, req.user.username, req.user._id, "Ready");
 });
