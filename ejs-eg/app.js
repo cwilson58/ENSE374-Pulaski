@@ -154,9 +154,6 @@ app.post("/editActivityDetails", async (req, res) => {
   }
   renderLogPage(req, res, "CameronTestUser", 0, "2021-12-22");
 });
-app.post("/home", (req, res) => {
-  res.redirect("/");
-});
 
 app.post("/loginPage", (req, res) => {
   res.render("login");
@@ -166,11 +163,6 @@ app.post("/logout", (req, res) => {
   res.redirect("/");
 });
 
-app.post("/currentStats", (req, res) => {
-  res.render("currentStats", {
-    username: "TESTNAME",
-  });
-});
 app.get("/", (req, res) => {
   res.render("../Public/index");
 });
@@ -181,6 +173,9 @@ function renderHomePage(req,res, username)
     username: username,
   });
 }
+app.post("/home", (req, res) => {
+  renderHomePage(req,res,req.user.username);
+});
 
 app.post("/login", (req, res) => {
     const user = new Users ({
@@ -202,15 +197,50 @@ app.post("/login", (req, res) => {
 
 app.post("/register", async (req, res) => {
   var newId = await getNextId(Users);
-  Users.register({ _id:newId , email:req.body.SignupEmail , username:req.body.SignupUsername }, req.body.SignupPassword,
+  var newStatsId = await getNextId(UserStats);
+  Users.register( { _id:newId , email:req.body.SignupEmail , username:req.body.SignupUsername }, req.body.SignupPassword,
                     ( err, user ) => {
         if ( err ) {
-        console.log( err );
-            res.redirect( "/" );
+          console.log( err );
+          res.redirect( "/" );
         }
         else {
           passport.authenticate( "local");
+          var usersStats = new UserStats({
+            _id: newStatsId,
+            userId: newId,
+            name: "Insert your stats here!",
+            startingPoint: -1,
+            currentPoint: -1,
+            endPoint: -1,
+            units: "Stats",
+          });
+          usersStats.save()
           renderHomePage(req,res, req.body.SignupUsername);
         }
-    });
+  });
+});
+
+async function renderStatsPage(req,res, username, usersId, state)
+{
+  let stats = await UserStats.find({ userId: usersId, startingPoint:-1});
+  res.render("currentStats", {
+    username: username,
+    Stats: stats[0].name,
+    state: state
+  });
+}
+
+app.post("/currentStats", (req, res) => {
+  renderStatsPage(req,res,req.user.username,req.user._id, "Ready");
+});
+
+app.post("/editStats", (req, res) => {
+  renderStatsPage(req,res,req.user.username,req.user._id, "Edit");
+});
+app.post("/saveStats", async (req, res) => {
+  var textStats = req.body.textBoxStats;
+  var usersId = req.user._id;
+  await UserStats.findOneAndUpdate({ userId: usersId, startingPoint:-1},{name:textStats});
+  renderStatsPage(req,res,req.user.username,req.user._id, "Ready");
 });

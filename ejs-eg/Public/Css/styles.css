@@ -43,9 +43,9 @@ body {
   cursor: pointer;
 }
 .footer {
+  position: fixed;
   color: var(--darkContentColour);
   text-align: center;
-  position: fixed;
   bottom: 0;
   width: 100%;
   height: 2.5rem;
@@ -78,11 +78,6 @@ body {
   padding-bottom: 2.5rem;
   overflow:auto;
   width:100%;
-}
-.footer{
-  bottom: 0;
-  width: 100%;
-  height: 2.5rem;
 }
 .leftContent{
   float:left;
@@ -265,4 +260,12 @@ body {
 {
     text-align: center;
     border-top: #004F2E;
+}
+
+.StatsText
+{
+  width:95%;
+  margin-bottom:2%;
+  text-align: left;
+  resize: none;
 }
