@@ -13,12 +13,8 @@ const Activities = require("./Models/activity");
 const Logs = require("./Models/logs");
 const Details = require("./Models/details");
 const { removeAllListeners } = require("nodemon");
-const e = require("express");
-// this is a canonical alias to make your life easier, like jQuery to $.
 const app = express();
-// host static resources
 app.use(express.static("Public"));
-// body-parser is now built into express!
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 //Session and passport initialization
@@ -31,22 +27,10 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-//Code from stackoverflow at the following link: https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript?rq=1
-var today = new Date();
-var dd = String(today.getDate()).padStart(2, "0");
-var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-var yyyy = today.getFullYear();
-
-today = yyyy + "-" + mm + "-" + dd;
-// a common localhost test port
 const port = 3000;
-
-// Simple server operation
 app.listen(port, () => {
-  // template literal
   console.log(`Server is running on http://localhost:${port}`);
 });
-//Function that gets the next id of a given collection
 async function getNextId(collection) {
   var nextAvailValidId = 0;
   let taskIds = await collection.find().distinct("_id");
@@ -61,7 +45,6 @@ async function renderLogPage(req, res, usersName, usersId, logsDate) {
   let activsToRender = await Activities.find({ parentLogId: 0 });
   let logId = await Logs.findOne({ ownerId: usersId, date: logsDate });
   if (logId == null || logId == "undefined") {
-    console.log(logsDate);
     nextId = await getNextId(Logs);
     logId = new Logs({
       _id: nextId,
@@ -90,8 +73,14 @@ async function renderLogPage(req, res, usersName, usersId, logsDate) {
   });
 }
 app.post("/logActivity", (req, res) => {
-  var dateToSearchFor = req.body.selectedDate;
+  var dateToSearchFor = req.body.SelectedDate;
   var currUsersId = req.user._id;
+  //Code from stackoverflow at the following link: https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript?rq=1
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, "0");
+  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var yyyy = today.getFullYear();
+  today = yyyy + "-" + mm + "-" + dd;
   if (dateToSearchFor != null && dateToSearchFor != "undefined") {
     renderLogPage(req, res, req.user.username, currUsersId, dateToSearchFor);
   } else {
@@ -277,8 +266,9 @@ app.post("/removeSet", async (req, res) => {
 app.post("/removeActivity", async (req, res) => {
   var usersName = req.user.username;
   var usersId = req.user._id;
-  var activityId = req.body.ActivityToRemove;
-  Activities.findOneAndRemove({ _id: activityId }).then(() => {
+  var oldActivityId = req.body.ActivityToRemove;
+  await Activities.findOneAndRemove({ _id: oldActivityId });
+  Details.deleteMany({ activityId: oldActivityId }).then(() => {
     renderLogPage(req, res, usersName, usersId, req.body.DateForLog);
   });
 });
