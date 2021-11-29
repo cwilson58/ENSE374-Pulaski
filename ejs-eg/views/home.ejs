@@ -12,16 +12,13 @@
             <%- include("Partials/headerBar.ejs",{}) -%>
             <br>
 
-            <div class="NotificationContentBox">
-                <div class="NotificationHeader">
-                    Notifications
+            <div class="ProgressContentBox">
+                <div class="headerBar progressHeader">
+                    Progress
                 </div>
 
                 <div id="Context">
-                    <ul>
-                        <li>You need to run 2km today!</li> 
-                        <li>You need to eat 25 candy today!</li>
-                    </ul>
+                    <%- include("Partials/progressContentForm.ejs",{}) -%>
                 </div>
                 
                 <br>
@@ -29,7 +26,7 @@
             </div>
             
             <div class="ActivityContentBox">
-                <div class="TodaysActivityHeader">                
+                <div class="headerBar progressHeader">                
                     Today's Activity
                 </div>
 
@@ -50,21 +47,14 @@
             </div>
 
             <div class="CurrentContentBox">
-                <div class="CurrentStatsHeader">
+                <div class="headerBar progressHeader">
                     Current Stats
                 </div>
                 
                 <div class="ProgressContent">
-                    <br>
                     <div class="Content1">
-                        Best Run: 1km Goal 5km
+                        <%- include("Partials/statsContentForm.ejs",{}) -%>
                     </div>
-                    <br>
-                    <div class="Content2">
-                        Most Candy Bars Eaten in a day: Goal 686
-                    </div>
-                    <br>
-                    <button class="btn">Edit</button>
                 </div>
             </div>
             
@@ -211,30 +201,11 @@
 
             <div class="content2">
                 <div class="SuggestionContentBox">
-                    <div class="SuggestionHeader">
+                    <div class="headerBar progressHeader">
                         Try These!
                     </div>
-    
-                    <div class="Checklist">
-                        <br>
-                        <div>
-                            <input type="textbox" placeholder="Not eating 686 candy  bars a day" size=35%>
-                        </div>
-                        <br>
-                        <div>
-                            <input type="textbox" placeholder="Bog snorkling" size=35% float="fixed">
-                        </div>
-                    </div>
-    
-                    <div class="Button">
-                        <br>
-                        <button id="btn">More</button>
-                    </div>
+                    <%- include("Partials/tryThese.ejs",activsList) -%>
                 </div>
-            </div>
-            
-            <div class="footer">
-            <%- include("Layouts/footer") -%>
             </div>
         </div>
     </div>

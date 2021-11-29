@@ -11,11 +11,11 @@
 <%- include("Partials/headerBar.ejs",{}) -%>
 <div id="TodaysLog" class="container centerContainer">
     <div id="TodaysLogHeader" class="headerBar">
-        <p>Activites for <%= date %>
+        <span>Activites for <%= date %>
             <button class="btn navBtn">Find New Activities!</button>
-        </p>
+        </span>
     </div>
-    <div id="TodaysLogContent" ></div>
+    <div id="TodaysLogContent" style="margin-top:2%;"></div>
     <table class="centerContainer">
     <% for (let activity of loggedActivsList) { %>
         <tr>
@@ -191,27 +191,27 @@
                 </div>
             </td>
             <%}%>
-            
         </tr>
+        <tr style="height:40px;"></tr>
     <%}%>
     <tr>
         <td>
             <form action="addAnotherActivity" method="post">
                 <input type="hidden" name="CurrLogsId" value=<%= logsId %>>
                 <input type="hidden" name="DateForLog" id="DateForLog" value=<%= date%>>
-                <button class="btn">Add Another Activity</button>
+                <button class="btn" style="margin-bottom: 5%;">Add Another Activity</button>
             </form>
-            <button class="btn">Save</button>
         </td>
     </tr>
     </table>
 </div>
-<div id="TryThese" class="container centerContainer">
+<div id="TryThese" class="container centerContainer" style="margin-bottom: 10%;">
     <div id="TryHeader" class="headerBar">
-        <p>Based on what others are doing, try these!</p>
+        <span>Based on what others are doing, try these!</span>
     </div>
-    <div id="TryBody">
+    <div id="TryBody" style="margin-left:1%">
         <%- include("Partials/tryThese.ejs",activsList) -%>
     </div>
 </div>
-<%- include("Layouts/footer") -%>
+</body>
+</html>

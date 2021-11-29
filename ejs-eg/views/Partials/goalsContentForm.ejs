@@ -4,7 +4,7 @@
             <div id="GoalsContent" style="padding:2.5%">
                 <% for(let goal of goalList)
                 {%>
-                    <span><%= goal.name %>:<%= goal.endPoint %><%= goal.units %> | Progress:<%= goal.currentPoint %><%= goal.units %></span> <span hidden><%= goal._id %></span><br>
+                    <span style="font-size:larger"><%= goal.name %>:<%= goal.currentPoint %>/<%= goal.endPoint %> <%= goal.units %></span> <span hidden><%= goal._id %></span><br>
                 <%}
                 %>
                 <button type="submit" id="EditGoalsBtn" class="btn btn-primary statsAndGoalsButton">Edit Goals</button>
@@ -23,10 +23,12 @@
                     <span>Current point:</span> <input type="text" name="current<%= goal._id %>" id="current<%= goal._id %>" value="<%= goal.currentPoint %>" class="GoalsInputFields"> <br>
                     <span>End point:</span> <input type="text" name="end<%= goal._id %>" id="end<%= goal._id %>" value="<%= goal.endPoint %>" class="GoalsInputFields"> <br>
                     <span>Units:</span> <input type="text" name="units<%= goal._id %>" id="units<%= goal._id %>" value="<%= goal.units %>" class="GoalsInputFields"> <br>
+                    <span>Check this box to remove it:</span>
+                    <input type="checkbox" name="check<%= goal._id %>" id="check<%= goal._id %>"  unchecked="" value="true">
                     <hr>
                 <%}
                 %>
-                <button type="submit" id="EditGoalsBtn" class="btn btn-primary statsAndGoalsButton">Save Goals</button>
+                <button type="submit" id="SaveGoalsBtn" class="btn btn-primary statsAndGoalsButton">Save Goals</button>
                 <hr>
             </div>
         </form>
