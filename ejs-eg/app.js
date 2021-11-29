@@ -302,6 +302,25 @@ async function renderHomePage(req, res, username) {
   }
   let stats = await UserStats.find({ userId: req.user._id, startingPoint: -1 });
   let activsToRender = await Activities.find({ parentLogId: 0 });
+  //The following was injected by cameron to build the "todays log" mini display
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, "0");
+  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var yyyy = today.getFullYear();
+  today = yyyy + "-" + mm + "-" + dd;
+  let todaysLog = await Logs.findOne({ ownerId: req.user._id, date: today });
+  let loggedActiv = null;
+  let details = null;
+  if (todaysLog != null && todaysLog != "undefined") {
+    loggedActiv = await Activities.findOne({
+      parentLogId: todaysLog._id,
+    });
+    if (loggedActiv != null && loggedActiv != "undeifned") {
+      details = await Details.find({ activityId: loggedActiv._id });
+    }
+  }
+
+  //end camerons code
   res.render("home", {
     username: username,
     Stats: stats[0].name,
@@ -310,6 +329,9 @@ async function renderHomePage(req, res, username) {
     page: "home",
     amount: goalsSize,
     activsList: activsToRender,
+    todaysActiv: loggedActiv,
+    todaysDetails: details,
+    theDate: today,
   });
 }
 app.post("/home", (req, res) => {

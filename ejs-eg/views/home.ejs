@@ -29,20 +29,52 @@
                 <div class="headerBar progressHeader">                
                     Today's Activity
                 </div>
-
-                <div class="Checklist">
-                    <br>
-                    <div>
-                        <input type="textbox" placeholder="Completed Task" size=35%>
-                        <input type="checkbox" id="chck">
-                    </div>
-                    <br>
-                    <div>
-                        <input type="textbox" placeholder="Uncompleted Task" size=35%>
-                        <input type="checkbox" id="chck">
-                    </div>
-                    <br>
-                    <button class="btn">Edit</button>
+                <div class="Checklist"style="margin-top: 20px;">
+                    <%if(todaysActiv != null){
+                        if(todaysActiv.activityType == null || todaysActiv.activityType == "no"){%>
+                            <label for="todaysActiv">Please go to the log page to select the type!</label>
+                        <%} else {%>
+                            <input type="hidden" name="HiddenActivityId" value=<%=todaysActiv._id%>>
+                            <select>
+                                <option><%= todaysActiv.activityName %></option>
+                            </select>
+                            <%if(todaysDetails != null){
+                                for(let detail of todaysDetails){
+                                    if(todaysActiv.activityType == "SetsAndDistance"){%>
+                                        <input type="text" name="Distance" id="Distance" value=<%=detail.distance %>>
+                                        <select name="Units" id="Units">
+                                            <option value=<%= detail.units%>><%= detail.units%></option>
+                                        </select>
+                                    <%} else if(todaysActiv.activityType == "SetsAndReps"){%>
+                                        <input type="text" name="Reps" id="Reps" value= <%=detail.reps %>>
+                                        <input type="text" name="Weight" id="Weight" value= <%=detail.weight %>>
+                                        <select name="Units" id="Units">
+                                            <option value=<%= detail.units%>><%= detail.units%></option>
+                                        </select>
+                                    <%} else if(todaysActiv.activityType == "TimeAndDistance"){ %>
+                                        <input type="number" name="Min" id="Min" step="0.01" value=<%= parseInt(detail.timeInSeconds / 60) %> >
+                                        <input type="number" name ="Seconds" id="Seconds" step="0.01" value=<%= Number(detail.timeInSeconds % 60) %>>
+                                        <br>
+                                        <input type="text" name="Distance" id="Distance" value=<%=detail.distance %>>
+                                        <select name="Units" id="Units">
+                                            <option value=<%= detail.units%>><%= detail.units%></option>
+                                        </select>
+                                    <%} else if(todaysActiv.activityType == "SetsAndTime"){ %>
+                                        <input type="number" name="Min" id="Min" step="0.01" value=<%= parseInt(detail.timeInSeconds / 60) %>>
+                                        <input type="number" name ="Seconds" id="Seconds" step="0.01" value=<%= Number(detail.timeInSeconds % 60) %>>
+                                    <%}
+                                }
+                            } else {%>
+                                <p>Nothin</p>
+                            <%}
+                        }
+                    } else {%>
+                        <label for="todaysActiv">No activites for Today</label> <br>
+                    <%}%>
+                    <form action="logActivity" method ="post">
+                        <input type="hidden" name="SelectedDate" value=<%=theDate%>>
+                        <button class="btn">Edit</button>
+                    </form>
                 </div>            
             </div>
 
@@ -217,6 +249,10 @@
                                 </th>
                             </tr>
                         </table>
+                        <form action="logActivity" method="post">
+                            <label for="date">Select a Date from above or, use this input!</label>
+                            <input type="date" name="SelectedDate" onchange="this.form.submit()">
+                        </form>
                     </div>
                 </div>
             </div>
