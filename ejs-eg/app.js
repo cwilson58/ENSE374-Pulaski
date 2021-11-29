@@ -279,7 +279,6 @@ app.post("/logout", (req, res) => {
   req.logout();
   res.redirect("/");
 });
-
 app.get("/", (req, res) => {
   renderLoginPage(req, res, "");
 });
