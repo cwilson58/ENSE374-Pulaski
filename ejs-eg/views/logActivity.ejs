@@ -118,7 +118,7 @@
                                     </select>
                                 <%} else { %>
                                     <input type="number" name="Min" id="Min" step="0.01" value=<%= parseInt(detail.timeInSeconds / 60) %> >
-                                    <input type="number" name ="Seconds" id="Seconds" step="0.01" value=<%= parseInt(detail.timeInSeconds % 60) %>>
+                                    <input type="number" name ="Seconds" id="Seconds" step="0.01" value=<%= Number(detail.timeInSeconds % 60) %>>
                                     <br>
                                     <input type="text" name="Distance" id="Distance" value=<%=detail.distance %>>
                                     <select name="Units" id="Units">
@@ -144,7 +144,7 @@
                                     <input type="number" name ="Seconds" id="Seconds" placeholder="Seconds" tep="0.01">
                                 <%} else { %>
                                     <input type="number" name="Min" id="Min" step="0.01" value=<%= parseInt(detail.timeInSeconds / 60) %>>
-                                    <input type="number" name ="Seconds" id="Seconds" step="0.01" value=<%= parseInt(detail.timeInSeconds % 60) %>>
+                                    <input type="number" name ="Seconds" id="Seconds" step="0.01" value=<%= Number(detail.timeInSeconds % 60) %>>
                                 <%}%>
                                 <input type="hidden" name="detailId" value=<%=detail._id %>>
                                 <input type="submit" value="Save Set" class="btn">
