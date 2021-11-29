@@ -81,7 +81,7 @@ body {
 }
 .leftContent {
   float: left;
-  height: 800px;
+  height: 1200px;
   width: 38%;
   margin-left: 10%;
 }
@@ -215,7 +215,6 @@ body {
 .SuggestionContentBox
 {
     float:left;
-    height:400px;
     width: 50%;
     margin-left: 5%;
     background-color: #C1D8CE;
