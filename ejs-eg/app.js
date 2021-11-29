@@ -291,11 +291,11 @@ function renderLoginPage(req, res, signupMessage) {
 async function renderHomePage(req, res, username) {
   let goals = await UserStats.find({
     userId: req.user._id,
-    startingPoint: { $gt: 0 },
+    startingPoint: { $gte: 0 },
   });
   var goalsSize = await UserStats.find({
     userId: req.user._id,
-    startingPoint: { $gt: 0 },
+    startingPoint: { $gte: 0 },
   }).count();
   if(goalsSize>2){
     goalsSize = 2;
@@ -369,9 +369,8 @@ async function renderStatsPage(req,res,username,usersId,statsState,goalsState) {
   let stats = await UserStats.find({ userId: usersId, startingPoint: -1 });
   let goals = await UserStats.find({
     userId: usersId,
-    startingPoint: { $gt: 0 },
+    startingPoint: { $gte: 0 },
   });
-  //console.log("goals:"+goals);
   res.render("currentStats", {
     username: username,
     Stats: stats[0].name,
@@ -407,7 +406,7 @@ app.post("/saveGoals", async (req, res) => {
   var usersId = req.user._id;
   var goals = await UserStats.find({
     userId: usersId,
-    startingPoint: { $gt: 0 },
+    startingPoint: { $gte: 0 },
   });
   for (element of goals) {
     var idValue = element._id;
@@ -418,11 +417,9 @@ app.post("/saveGoals", async (req, res) => {
     var newUnits = req.body["units" + idValue];
     var checkBoxRemove = req.body["check"+idValue];
     if(checkBoxRemove=="true"){
-      console.log("Reached remove IF state");
       await UserStats.findOneAndDelete({_id:idValue});
     }
     else{
-      console.log("Reached remove ELSE state");
       await UserStats.findOneAndUpdate(
         { _id: idValue, userId: usersId },
         {
