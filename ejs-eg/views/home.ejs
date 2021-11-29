@@ -75,6 +75,7 @@
 
                 <div class="CalendarContext"> 
                     <div id="Calendar">
+                        
                         <table>
                             <tr class="WeekDays">
                                 <th>Sun</th>
@@ -88,16 +89,31 @@
 
                             <tr class="Days">
                                 <th class="PrevMonthDays">
-                                    <div class="Date">28</div>
+                                    <div class="Date">
+                                        <form name = "Calendar" action="logActivity" method="post">
+                                            <input type="hidden" name="SelectedDate" value="2021-11-28">
+                                        <span onclick="Calendar.submit()" class="clickableSpan">28</span>
+                                        </form>
+                                    </div>
                                 </th>
                                 <th class="PrevMonthDays">
-                                    <div class="Date">29</div>
+                                    <div class="Date">
+                                    <form name = "Calendar2" action="logActivity" method="post">
+                                        <input type="hidden" name="SelectedDate" value="2021-11-29">
+                                    <span onclick="Calendar2.submit()" class="clickableSpan">29</span>
+                                    </form>
+                                    </div>
                                 </th>
                                 <th class="PrevMonthDays">
-                                    <div class="Date">30</div>
+                                    <div class="Date">
+                                    <form name = "Calendar3" action="logActivity" method="post">
+                                        <input type="hidden" name="SelectedDate" value="2021-11-30">
+                                    <span onclick="Calendar3.submit()" class="clickableSpan">30</span>
+                                    </form>
+                                    </div>
                                 </th>
                                 <th class="NumDays">
-                                    <div class="Date">1</div>
+                                    <div class="Date" onclick="">1</div>
                                 </th>
                                 <th class="NumDays">
                                     <div class="date">2</div>    					
@@ -106,7 +122,12 @@
                                     <div class="date">3</div>    					
                                 </th>
                                 <th class="NumDays">
-                                    <div class="date">4</div>    					
+                                    <div class="date">
+                                    <form name = "Calendar4" action="logActivity" method="post">
+                                        <input type="hidden" name="SelectedDate" value="2021-12-4">
+                                    <span onclick="Calendar4.submit()" class="clickableSpan">4</span>
+                                    </form>
+                                    </div>    					
                                 </th>
                             </tr>
 
