@@ -1,5 +1,7 @@
 <div id="HeaderBar" class="headerBar">
-    <span id="UsersImage">Hello, <%= username %></span>
+    <form action="/home"  method="post" class="headerBarInlineDisplay">
+        <button id="UsersImage" class="btn">Hello, <%= username %></button>
+    </form>
     <span hidden id="username" name="username"><%= username %></span>
     <div id="NavBtn" class="navBtn">
         <form action="/home"  method="post" class="headerBarInlineDisplay">

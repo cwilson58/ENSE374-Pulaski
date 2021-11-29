@@ -167,13 +167,14 @@ body {
   background-color: #004f2e;
 }
 
-.NotificationContentBox {
-  float: right;
-  height: 200px;
+.ProgressContentBox
+{
+  float:right;
+  height:200px;
   width: 35%;
-  margin-right: 5%;
-  background-color: #c1d8ce;
-  border: 1px solid #004f2e;
+  margin-right:5%;
+  background-color: #C1D8CE;
+  border: 1px solid #004F2E;
 }
 
 .NotificationHeader {
@@ -190,13 +191,15 @@ body {
   text-align: center;
 }
 
-.CurrentContentBox {
-  float: left;
-  height: 380px;
-  width: 50%;
-  margin-left: 5%;
-  background-color: #c1d8ce;
-  border: 1px solid #004f2e;
+.CurrentContentBox
+{
+    float:left;
+    height:380px;
+    width: 50%;
+    margin-left: 5%;
+    margin-top:2%;
+    background-color: #C1D8CE;
+    border: 1px solid #004F2E;
 }
 
 .CurrentStatsHeader {
@@ -209,13 +212,14 @@ body {
   text-align: center;
 }
 
-.SuggestionContentBox {
-  float: left;
-  height: 200px;
-  width: 50%;
-  margin-left: 5%;
-  background-color: #c1d8ce;
-  border: 1px solid #004f2e;
+.SuggestionContentBox
+{
+    float:left;
+    height:400px;
+    width: 50%;
+    margin-left: 5%;
+    background-color: #C1D8CE;
+    border: 1px solid #004F2E;
 }
 
 .SuggestionHeader {
@@ -224,19 +228,23 @@ body {
   background-color: #004f2e;
 }
 
-.CalendarContentBox {
-  float: right;
-  height: 380px;
-  width: 35%;
-  margin-right: 5%;
-  background-color: #c1d8ce;
-  border: 1px solid #004f2e;
+.CalendarContentBox
+{
+    float:right;
+    height:380px;
+    width: 35%;
+    margin-right:5%;
+    margin-top:2%;
+    background-color: #C1D8CE;
+    border: 1px solid #004F2E;
 }
 
-.CalendarHeader {
-  text-align: center;
-  font-size: x-large;
-  background-color: #004f2e;
+.CalendarHeader
+{
+    text-align: center;
+    font-size: x-large;
+    background-color: #004F2E; 
+    color:white;
 }
 
 .Button {
@@ -289,12 +297,14 @@ body {
   margin-bottom: -2px;
 }
 
+      
 #Calendar tr.WeekDays {
   text-align: center;
   float: left;
   height: 47px;
   width: 100px;
   background: #004f2e;
+  color:white;
   position: static;
 }
 
