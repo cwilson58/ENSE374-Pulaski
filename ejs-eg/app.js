@@ -36,7 +36,7 @@ var dd = String(today.getDate()).padStart(2, "0");
 var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
 var yyyy = today.getFullYear();
 
-today = mm + "-" + dd + "-" + yyyy;
+today = yyyy + "-" + mm + "-" + dd;
 // a common localhost test port
 const port = 3000;
 
@@ -58,9 +58,19 @@ async function getNextId(collection) {
 }
 async function renderLogPage(req, res, usersName, usersId, logsDate) {
   let activsToRender = await Activities.find({ parentLogId: 0 });
-  let logId = await Logs.find({ ownerId: usersId, date: logsDate });
+  let logId = await Logs.findOne({ ownerId: usersId, date: logsDate });
+  if (logId == null || logId == "undefined") {
+    console.log(logsDate);
+    nextId = await getNextId(Logs);
+    logId = new Logs({
+      _id: nextId,
+      date: logsDate,
+      ownerId: usersId,
+    });
+    await logId.save();
+  }
   let loggedActivsToRender = await Activities.find({
-    parentLogId: logId[0]._id,
+    parentLogId: logId._id,
   });
   let activsDetails = [];
   for (activity of loggedActivsToRender) {
@@ -75,16 +85,22 @@ async function renderLogPage(req, res, usersName, usersId, logsDate) {
     activsList: activsToRender,
     loggedActivsList: loggedActivsToRender,
     activDetailList: activsDetails,
-    logsId: logId[0]._id,
+    logsId: logId._id,
   });
 }
 app.post("/logActivity", (req, res) => {
-  renderLogPage(req, res, req.user.username, 0, "2021-12-22");
+  var dateToSearchFor = req.body.selectedDate;
+  var currUsersId = req.user._id;
+  if (dateToSearchFor != null && dateToSearchFor != "undefined") {
+    renderLogPage(req, res, req.user.username, currUsersId, dateToSearchFor);
+  } else {
+    renderLogPage(req, res, req.user.username, currUsersId, today);
+  }
 });
 app.post("/addAnotherActivity", async (req, res) => {
   //the current logs information and add a blank detail to the log
   var usersName = req.user.username;
-  var usersId = 0;
+  var usersId = req.user._id;
   var date = req.body.DateForLog;
   var newActivsId = await getNextId(Activities);
   var logsId = req.body.CurrLogsId;
@@ -125,7 +141,13 @@ app.post("/selectActivity", async (req, res) => {
       units: null,
     });
     baseDetail.save().then(() => {
-      renderLogPage(req, res, req.user.username, 0, req.body.DateForLog);
+      renderLogPage(
+        req,
+        res,
+        req.user.username,
+        req.user._id,
+        req.body.DateForLog
+      );
     });
   } else if ((selectedActivityName = "newActivity")) {
     var newActivsId = await getNextId(Activities);
@@ -136,7 +158,7 @@ app.post("/selectActivity", async (req, res) => {
       activityType: "no",
     });
     await newActivity.save();
-    var usersId = 0;
+    var usersId = req.user._id;
     var usersPersonalActivityId = await getNextId(Activities);
     let logId = await Logs.find({
       ownerId: usersId,
@@ -149,12 +171,18 @@ app.post("/selectActivity", async (req, res) => {
       activityType: "no",
     });
     newActivity.save().then(() => {
-      renderLogPage(req, res, req.user.username, 0, req.body.DateForLog);
+      renderLogPage(
+        req,
+        res,
+        req.user.username,
+        req.user._id,
+        req.body.DateForLog
+      );
     });
   }
 });
 app.post("/editActivityDetails", async (req, res) => {
-  var newSeconds = parseInt(req.body.Seconds) + parseInt(60 * req.body.Min);
+  var newSeconds = parseFloat(req.body.Seconds) + parseInt(60 * req.body.Min);
   var newDistance = req.body.Distance;
   var newUnits = req.body.Units;
   if (!isNaN(newSeconds) && !isNaN(newDistance)) {
@@ -178,7 +206,7 @@ app.post("/editActivityDetails", async (req, res) => {
       { distance: newDistance, units: newUnits }
     );
   }
-  renderLogPage(req, res, req.user.username, 0, req.body.DateForLog);
+  renderLogPage(req, res, req.user.username, req.user._id, req.body.DateForLog);
 });
 app.post("/editNewActivity", async (req, res) => {
   var newName = req.body.newActivityName;
@@ -205,7 +233,13 @@ app.post("/editNewActivity", async (req, res) => {
       { activityType: "no" },
       { activityName: newName, activityType: newType }
     ).then(() => {
-      renderLogPage(req, res, req.user.username, 0, req.body.DateForLog);
+      renderLogPage(
+        req,
+        res,
+        req.user.username,
+        req.user.username,
+        req.body.DateForLog
+      );
     });
   }
 });
@@ -225,7 +259,7 @@ app.post("/addSet", async (req, res) => {
     units: null,
   });
   newDetail.save().then(() => {
-    renderLogPage(req, res, req.user.username, 0, date);
+    renderLogPage(req, res, req.user.username, req.user._id, date);
   });
 });
 app.post("/removeSet", async (req, res) => {
@@ -236,12 +270,12 @@ app.post("/removeSet", async (req, res) => {
     activityId: parentId,
     setNumber: parseInt(currDetails.length),
   }).then(() => {
-    renderLogPage(req, res, req.user.username, 0, date);
+    renderLogPage(req, res, req.user.username, req.user._id, date);
   });
 });
 app.post("/removeActivity", async (req, res) => {
   var usersName = req.user.username;
-  var usersId = 0;
+  var usersId = req.user._id;
   var activityId = req.body.ActivityToRemove;
   Activities.findOneAndRemove({ _id: activityId }).then(() => {
     renderLogPage(req, res, usersName, usersId, req.body.DateForLog);
@@ -256,11 +290,11 @@ app.post("/logout", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  renderLoginPage(req,res,"");
+  renderLoginPage(req, res, "");
 });
-function renderLoginPage(req,res,signupMessage){
+function renderLoginPage(req, res, signupMessage) {
   res.render("../Public/index", {
-    signupMessage:signupMessage
+    signupMessage: signupMessage,
   });
 }
 
@@ -316,56 +350,115 @@ app.post("/register", async (req, res) => {
           units: "Stats",
         });
         usersStats.save();
-        renderLoginPage(req,res,"Signup complete, please log in!");
+        renderLoginPage(req, res, "Signup complete, please log in!");
       }
     }
   );
 });
 
-async function renderStatsPage(req,res, username, usersId, statsState, goalsState)
-{
-  let stats = await UserStats.find({ userId: usersId, startingPoint:-1});
-  let goals = await UserStats.find({ userId: usersId, startingPoint:{$gt: 0} });
+async function renderStatsPage(
+  req,
+  res,
+  username,
+  usersId,
+  statsState,
+  goalsState
+) {
+  let stats = await UserStats.find({ userId: usersId, startingPoint: -1 });
+  let goals = await UserStats.find({
+    userId: usersId,
+    startingPoint: { $gt: 0 },
+  });
   //console.log("goals:"+goals);
   res.render("currentStats", {
     username: username,
     Stats: stats[0].name,
     goalList: goals,
     statsState: statsState,
-    goalsState: goalsState
+    goalsState: goalsState,
   });
 }
 
 app.post("/currentStats", (req, res) => {
-  renderStatsPage(req,res,req.user.username,req.user._id, "statsReady", "goalsReady");
+  renderStatsPage(
+    req,
+    res,
+    req.user.username,
+    req.user._id,
+    "statsReady",
+    "goalsReady"
+  );
 });
 
 app.post("/editStats", (req, res) => {
-  renderStatsPage(req,res,req.user.username,req.user._id, "statsEdit", "goalsReady");
+  renderStatsPage(
+    req,
+    res,
+    req.user.username,
+    req.user._id,
+    "statsEdit",
+    "goalsReady"
+  );
 });
 app.post("/saveStats", async (req, res) => {
   var textStats = req.body.textBoxStats;
   var usersId = req.user._id;
-  await UserStats.findOneAndUpdate({ userId: usersId, startingPoint:-1},{name:textStats});
-  renderStatsPage(req,res,req.user.username,req.user._id, "statsReady",  "goalsReady");
+  await UserStats.findOneAndUpdate(
+    { userId: usersId, startingPoint: -1 },
+    { name: textStats }
+  );
+  renderStatsPage(
+    req,
+    res,
+    req.user.username,
+    req.user._id,
+    "statsReady",
+    "goalsReady"
+  );
 });
 
 app.post("/editGoals", (req, res) => {
-  renderStatsPage(req,res,req.user.username,req.user._id, "statsReady", "goalsEdit");
+  renderStatsPage(
+    req,
+    res,
+    req.user.username,
+    req.user._id,
+    "statsReady",
+    "goalsEdit"
+  );
 });
 app.post("/saveGoals", async (req, res) => {
   var usersId = req.user._id;
-  var goals = await UserStats.find({ userId: usersId, startingPoint:{$gt: 0} });
-  for(element of goals){
+  var goals = await UserStats.find({
+    userId: usersId,
+    startingPoint: { $gt: 0 },
+  });
+  for (element of goals) {
     var idValue = element._id;
-    var newName = req.body["goal"+idValue];
-    var newStarting = req.body["starting"+idValue];
-    var newCurrent = req.body["current"+idValue];
-    var newEnd = req.body["end"+idValue];
-    var newUnits = req.body["units"+idValue];
-    await UserStats.findOneAndUpdate({ _id:idValue, userId: usersId} , { name:newName, startingPoint:newStarting, currentPoint:newCurrent, endPoint:newEnd, units:newUnits });
+    var newName = req.body["goal" + idValue];
+    var newStarting = req.body["starting" + idValue];
+    var newCurrent = req.body["current" + idValue];
+    var newEnd = req.body["end" + idValue];
+    var newUnits = req.body["units" + idValue];
+    await UserStats.findOneAndUpdate(
+      { _id: idValue, userId: usersId },
+      {
+        name: newName,
+        startingPoint: newStarting,
+        currentPoint: newCurrent,
+        endPoint: newEnd,
+        units: newUnits,
+      }
+    );
   }
-  renderStatsPage(req,res,req.user.username,req.user._id, "statsReady",  "goalsReady");
+  renderStatsPage(
+    req,
+    res,
+    req.user.username,
+    req.user._id,
+    "statsReady",
+    "goalsReady"
+  );
 });
 app.post("/addGoal", async (req, res) => {
   var newId = await getNextId(UserStats);
@@ -380,5 +473,12 @@ app.post("/addGoal", async (req, res) => {
     units: "",
   });
   await usersStats.save();
-  renderStatsPage(req,res,req.user.username,req.user._id, "statsReady", "goalsEdit");
+  renderStatsPage(
+    req,
+    res,
+    req.user.username,
+    req.user._id,
+    "statsReady",
+    "goalsEdit"
+  );
 });
