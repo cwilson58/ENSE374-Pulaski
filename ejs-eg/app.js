@@ -227,7 +227,7 @@ app.post("/editNewActivity", async (req, res) => {
         req,
         res,
         req.user.username,
-        req.user.username,
+        req.user._id,
         req.body.DateForLog
       );
     });
@@ -297,7 +297,7 @@ async function renderHomePage(req, res, username) {
     userId: req.user._id,
     startingPoint: { $gte: 0 },
   }).count();
-  if(goalsSize>2){
+  if (goalsSize > 2) {
     goalsSize = 2;
   }
   let stats = await UserStats.find({ userId: req.user._id, startingPoint: -1 });
@@ -307,8 +307,8 @@ async function renderHomePage(req, res, username) {
     Stats: stats[0].name,
     statsState: "statsReady",
     goalList: goals,
-    page:"home",
-    amount:goalsSize,
+    page: "home",
+    amount: goalsSize,
     activsList: activsToRender,
   });
 }
@@ -365,7 +365,14 @@ app.post("/register", async (req, res) => {
   );
 });
 
-async function renderStatsPage(req,res,username,usersId,statsState,goalsState) {
+async function renderStatsPage(
+  req,
+  res,
+  username,
+  usersId,
+  statsState,
+  goalsState
+) {
   let stats = await UserStats.find({ userId: usersId, startingPoint: -1 });
   let goals = await UserStats.find({
     userId: usersId,
@@ -377,17 +384,31 @@ async function renderStatsPage(req,res,username,usersId,statsState,goalsState) {
     goalList: goals,
     statsState: statsState,
     goalsState: goalsState,
-    page:"stats",
-    amount:20
+    page: "stats",
+    amount: 20,
   });
 }
 
 app.post("/currentStats", (req, res) => {
-  renderStatsPage(req,res,req.user.username,req.user._id,"statsReady","goalsReady");
+  renderStatsPage(
+    req,
+    res,
+    req.user.username,
+    req.user._id,
+    "statsReady",
+    "goalsReady"
+  );
 });
 
 app.post("/editStats", (req, res) => {
-  renderStatsPage(req,res,req.user.username,req.user._id,"statsEdit","goalsReady");
+  renderStatsPage(
+    req,
+    res,
+    req.user.username,
+    req.user._id,
+    "statsEdit",
+    "goalsReady"
+  );
 });
 app.post("/saveStats", async (req, res) => {
   var textStats = req.body.textBoxStats;
@@ -396,11 +417,25 @@ app.post("/saveStats", async (req, res) => {
     { userId: usersId, startingPoint: -1 },
     { name: textStats }
   );
-  renderStatsPage(req,res,req.user.username,req.user._id,"statsReady","goalsReady");
+  renderStatsPage(
+    req,
+    res,
+    req.user.username,
+    req.user._id,
+    "statsReady",
+    "goalsReady"
+  );
 });
 
 app.post("/editGoals", (req, res) => {
-  renderStatsPage(req,res,req.user.username,req.user._id,"statsReady","goalsEdit");
+  renderStatsPage(
+    req,
+    res,
+    req.user.username,
+    req.user._id,
+    "statsReady",
+    "goalsEdit"
+  );
 });
 app.post("/saveGoals", async (req, res) => {
   var usersId = req.user._id;
@@ -432,7 +467,14 @@ app.post("/saveGoals", async (req, res) => {
       );
     }
   }
-  renderStatsPage(req,res,req.user.username,req.user._id,"statsReady","goalsReady");
+  renderStatsPage(
+    req,
+    res,
+    req.user.username,
+    req.user._id,
+    "statsReady",
+    "goalsReady"
+  );
 });
 app.post("/addGoal", async (req, res) => {
   var newId = await getNextId(UserStats);
@@ -447,5 +489,12 @@ app.post("/addGoal", async (req, res) => {
     units: "",
   });
   await usersStats.save();
-  renderStatsPage(req,res,req.user.username,req.user._id,"statsReady","goalsEdit");
+  renderStatsPage(
+    req,
+    res,
+    req.user.username,
+    req.user._id,
+    "statsReady",
+    "goalsEdit"
+  );
 });
