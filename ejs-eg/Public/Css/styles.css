@@ -155,7 +155,7 @@ body {
 
 .ActivityContentBox {
   float: left;
-  height: 200px;
+  height: 220px;
   width: 50%;
   margin-left: 5%;
   background-color: #c1d8ce;
@@ -170,7 +170,7 @@ body {
 
 .ProgressContentBox {
   float: right;
-  height: 200px;
+  height: 220px;
   width: 35%;
   margin-right: 5%;
   background-color: #c1d8ce;
