@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
 :root {
   --background: #d1d1d1;
   --lightContentColour: #c1d8ce;
@@ -5,7 +6,7 @@
   --lightestColour: #ffffff;
 }
 * {
-  font-family: poppins;
+  font-family: "Roboto", sans-serif;
 }
 body {
   width: 100%;
@@ -167,14 +168,13 @@ body {
   background-color: #004f2e;
 }
 
-.ProgressContentBox
-{
-  float:right;
-  height:200px;
+.ProgressContentBox {
+  float: right;
+  height: 200px;
   width: 35%;
-  margin-right:5%;
-  background-color: #C1D8CE;
-  border: 1px solid #004F2E;
+  margin-right: 5%;
+  background-color: #c1d8ce;
+  border: 1px solid #004f2e;
 }
 
 .NotificationHeader {
@@ -191,15 +191,14 @@ body {
   text-align: center;
 }
 
-.CurrentContentBox
-{
-    float:left;
-    height:380px;
-    width: 50%;
-    margin-left: 5%;
-    margin-top:2%;
-    background-color: #C1D8CE;
-    border: 1px solid #004F2E;
+.CurrentContentBox {
+  float: left;
+  height: 380px;
+  width: 50%;
+  margin-left: 5%;
+  margin-top: 2%;
+  background-color: #c1d8ce;
+  border: 1px solid #004f2e;
 }
 
 .CurrentStatsHeader {
@@ -212,13 +211,12 @@ body {
   text-align: center;
 }
 
-.SuggestionContentBox
-{
-    float:left;
-    width: 50%;
-    margin-left: 5%;
-    background-color: #C1D8CE;
-    border: 1px solid #004F2E;
+.SuggestionContentBox {
+  float: left;
+  width: 50%;
+  margin-left: 5%;
+  background-color: #c1d8ce;
+  border: 1px solid #004f2e;
 }
 
 .SuggestionHeader {
@@ -227,23 +225,21 @@ body {
   background-color: #004f2e;
 }
 
-.CalendarContentBox
-{
-    float:right;
-    height:380px;
-    width: 35%;
-    margin-right:5%;
-    margin-top:2%;
-    background-color: #C1D8CE;
-    border: 1px solid #004F2E;
+.CalendarContentBox {
+  float: right;
+  height: 380px;
+  width: 35%;
+  margin-right: 5%;
+  margin-top: 2%;
+  background-color: #c1d8ce;
+  border: 1px solid #004f2e;
 }
 
-.CalendarHeader
-{
-    text-align: center;
-    font-size: x-large;
-    background-color: #004F2E; 
-    color:white;
+.CalendarHeader {
+  text-align: center;
+  font-size: x-large;
+  background-color: #004f2e;
+  color: white;
 }
 
 .Button {
@@ -296,14 +292,13 @@ body {
   margin-bottom: -2px;
 }
 
-      
 #Calendar tr.WeekDays {
   text-align: center;
   float: left;
   height: 47px;
   width: 100px;
   background: #004f2e;
-  color:white;
+  color: white;
   position: static;
 }
 

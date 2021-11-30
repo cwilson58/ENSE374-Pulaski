@@ -74,67 +74,15 @@ async function saveActivities() {
     activityType: "SetsAndDistance",
   });
   await Activity.save();
-  //Activities the test users have logged
-  Activity = new Activities({
-    _id: 6,
-    parentLogId: 8,
-    activityName: "Laps",
-    activityType: "SetsAndDistance",
-  });
-  await Activity.save();
-  Activity = new Activities({
-    _id: 7,
-    parentLogId: 1,
-    activityName: "Squats",
-    activityType: "SetsAndReps",
-  });
-  await Activity.save();
-  Activity = new Activities({
-    _id: 8,
-    parentLogId: 2,
-    activityName: "Squats",
-    activityType: "SetsAndReps",
-  });
-  await Activity.save();
-  Activity = new Activities({
-    _id: 9,
-    parentLogId: 3,
-    activityName: "Jogging",
-    activityType: "TimeAndDistance",
-  });
-  await Activity.save();
-  Activity = new Activities({
-    _id: 10,
-    parentLogId: 4,
-    activityName: "Bench Press",
-    activityType: "SetsAndReps",
-  });
-  await Activity.save();
-  Activity = new Activities({
-    _id: 11,
-    parentLogId: 5,
-    activityName: "Bench Press",
-    activityType: "SetsAndReps",
-  });
-  await Activity.save();
-  Activity = new Activities({
-    _id: 12,
-    parentLogId: 6,
-    activityName: "Squats",
-    activityType: "SetsAndReps",
-  });
-  await Activity.save();
-  Activity = new Activities({
-    _id: 13,
-    parentLogId: 7,
-    activityName: "Laps",
-    activityType: "SetsAndDistance",
-  });
-  await Activity.save();
-  console.log("Activities Saved");
 }
 
 async function makeDbs() {
+  placeHolderLog = Logs({
+    _id: 0,
+    date: null,
+    ownerId: null,
+  });
+  await placeHolderLog.save();
   await saveActivities();
   console.log("projectPAT database has been created!");
   process.exit(1); //Make sure everything saves then exit the js program
