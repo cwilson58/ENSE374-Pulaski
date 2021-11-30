@@ -287,7 +287,6 @@ function renderLoginPage(req, res, signupMessage) {
     signupMessage: signupMessage,
   });
 }
-
 async function renderHomePage(req, res, username) {
   let goals = await UserStats.find({
     userId: req.user._id,
@@ -337,7 +336,6 @@ async function renderHomePage(req, res, username) {
 app.post("/home", (req, res) => {
   renderHomePage(req, res, req.user.username);
 });
-
 app.post("/login", (req, res) => {
   const user = new Users({
     username: req.body.username,
@@ -354,7 +352,6 @@ app.post("/login", (req, res) => {
     }
   });
 });
-
 app.post("/register", async (req, res) => {
   var newId = await getNextId(Users);
   var newStatsId = await getNextId(UserStats);
@@ -386,7 +383,6 @@ app.post("/register", async (req, res) => {
     }
   );
 });
-
 async function renderStatsPage(
   req,
   res,
@@ -410,7 +406,6 @@ async function renderStatsPage(
     amount: 20,
   });
 }
-
 app.post("/currentStats", (req, res) => {
   renderStatsPage(
     req,
@@ -421,7 +416,6 @@ app.post("/currentStats", (req, res) => {
     "goalsReady"
   );
 });
-
 app.post("/editStats", (req, res) => {
   renderStatsPage(
     req,
@@ -472,11 +466,10 @@ app.post("/saveGoals", async (req, res) => {
     var newCurrent = req.body["current" + idValue];
     var newEnd = req.body["end" + idValue];
     var newUnits = req.body["units" + idValue];
-    var checkBoxRemove = req.body["check"+idValue];
-    if(checkBoxRemove=="true"){
-      await UserStats.findOneAndDelete({_id:idValue});
-    }
-    else{
+    var checkBoxRemove = req.body["check" + idValue];
+    if (checkBoxRemove == "true") {
+      await UserStats.findOneAndDelete({ _id: idValue });
+    } else {
       await UserStats.findOneAndUpdate(
         { _id: idValue, userId: usersId },
         {
