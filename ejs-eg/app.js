@@ -31,6 +31,7 @@ const port = 3000;
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+//start of non setup code
 async function getNextId(collection) {
   var nextAvailValidId = 0;
   let taskIds = await collection.find().distinct("_id");
@@ -88,7 +89,6 @@ app.post("/logActivity", (req, res) => {
   }
 });
 app.post("/addAnotherActivity", async (req, res) => {
-  //the current logs information and add a blank detail to the log
   var usersName = req.user.username;
   var usersId = req.user._id;
   var date = req.body.DateForLog;
@@ -149,18 +149,18 @@ app.post("/selectActivity", async (req, res) => {
     });
     await newActivity.save();
     var usersId = req.user._id;
-    var usersPersonalActivityId = await getNextId(Activities);
     let logId = await Logs.find({
       ownerId: usersId,
       date: req.body.DateForLog,
     });
-    newActivity = new Activities({
-      _id: usersPersonalActivityId,
-      parentLogId: logId[0]._id,
-      activityName: "new activity being made",
-      activityType: "no",
-    });
-    newActivity.save().then(() => {
+    Activities.findOneAndUpdate(
+      { _id: selectedActivityId },
+      {
+        parentLogId: logId[0]._id,
+        activityName: "new activity being made",
+        activityType: "no",
+      }
+    ).then(() => {
       renderLogPage(
         req,
         res,
