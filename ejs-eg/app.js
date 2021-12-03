@@ -131,13 +131,7 @@ app.post("/selectActivity", async (req, res) => {
       units: null,
     });
     baseDetail.save().then(() => {
-      renderLogPage(
-        req,
-        res,
-        req.user.username,
-        req.user._id,
-        req.body.DateForLog
-      );
+      renderLogPage(req, res, req.user.username, req.user._id, req.body.DateForLog);
     });
   } else if ((selectedActivityName = "newActivity")) {
     var newActivsId = await getNextId(Activities);
@@ -161,13 +155,7 @@ app.post("/selectActivity", async (req, res) => {
         activityType: "no",
       }
     ).then(() => {
-      renderLogPage(
-        req,
-        res,
-        req.user.username,
-        req.user._id,
-        req.body.DateForLog
-      );
+      renderLogPage(req, res, req.user.username, req.user._id, req.body.DateForLog);
     });
   }
 });
@@ -176,25 +164,13 @@ app.post("/editActivityDetails", async (req, res) => {
   var newDistance = req.body.Distance;
   var newUnits = req.body.Units;
   if (!isNaN(newSeconds) && !isNaN(newDistance)) {
-    await Details.findOneAndUpdate(
-      { _id: req.body.detailId },
-      { timeInSeconds: newSeconds, distance: newDistance, units: newUnits }
-    );
+    await Details.findOneAndUpdate({ _id: req.body.detailId }, { timeInSeconds: newSeconds, distance: newDistance, units: newUnits });
   } else if (!isNaN(req.body.Reps) || !isNaN(req.body.Weight)) {
-    await Details.findOneAndUpdate(
-      { _id: req.body.detailId },
-      { reps: req.body.Reps, weight: req.body.Weight, units: newUnits }
-    );
+    await Details.findOneAndUpdate({ _id: req.body.detailId }, { reps: req.body.Reps, weight: req.body.Weight, units: newUnits });
   } else if (!isNaN(newSeconds) || isNaN(newDistance)) {
-    await Details.findOneAndUpdate(
-      { _id: req.body.detailId },
-      { timeInSeconds: newSeconds }
-    );
+    await Details.findOneAndUpdate({ _id: req.body.detailId }, { timeInSeconds: newSeconds });
   } else if (isNaN(newSeconds) || !isNaN(newDistance)) {
-    await Details.findOneAndUpdate(
-      { _id: req.body.detailId },
-      { distance: newDistance, units: newUnits }
-    );
+    await Details.findOneAndUpdate({ _id: req.body.detailId }, { distance: newDistance, units: newUnits });
   }
   renderLogPage(req, res, req.user.username, req.user._id, req.body.DateForLog);
 });
@@ -203,10 +179,7 @@ app.post("/editNewActivity", async (req, res) => {
   var newType = req.body.newActivityType;
   var newId = req.body.newActivityId;
   if (newName != null && newType != null) {
-    await Activities.findOneAndUpdate(
-      { _id: newId },
-      { activityName: newName, activityType: newType }
-    );
+    await Activities.findOneAndUpdate({ _id: newId }, { activityName: newName, activityType: newType });
     var nextDetailId = await getNextId(Details);
     newDetail = new Details({
       _id: nextDetailId,
@@ -219,17 +192,8 @@ app.post("/editNewActivity", async (req, res) => {
       units: null,
     });
     await newDetail.save();
-    Activities.findOneAndUpdate(
-      { activityType: "no" },
-      { activityName: newName, activityType: newType }
-    ).then(() => {
-      renderLogPage(
-        req,
-        res,
-        req.user.username,
-        req.user._id,
-        req.body.DateForLog
-      );
+    Activities.findOneAndUpdate({ activityType: "no", parentLogId: 0 }, { activityName: newName, activityType: newType }).then(() => {
+      renderLogPage(req, res, req.user.username, req.user._id, req.body.DateForLog);
     });
   }
 });
@@ -383,14 +347,7 @@ app.post("/register", async (req, res) => {
     }
   );
 });
-async function renderStatsPage(
-  req,
-  res,
-  username,
-  usersId,
-  statsState,
-  goalsState
-) {
+async function renderStatsPage(req, res, username, usersId, statsState, goalsState) {
   let stats = await UserStats.find({ userId: usersId, startingPoint: -1 });
   let goals = await UserStats.find({
     userId: usersId,
@@ -407,51 +364,20 @@ async function renderStatsPage(
   });
 }
 app.post("/currentStats", (req, res) => {
-  renderStatsPage(
-    req,
-    res,
-    req.user.username,
-    req.user._id,
-    "statsReady",
-    "goalsReady"
-  );
+  renderStatsPage(req, res, req.user.username, req.user._id, "statsReady", "goalsReady");
 });
 app.post("/editStats", (req, res) => {
-  renderStatsPage(
-    req,
-    res,
-    req.user.username,
-    req.user._id,
-    "statsEdit",
-    "goalsReady"
-  );
+  renderStatsPage(req, res, req.user.username, req.user._id, "statsEdit", "goalsReady");
 });
 app.post("/saveStats", async (req, res) => {
   var textStats = req.body.textBoxStats;
   var usersId = req.user._id;
-  await UserStats.findOneAndUpdate(
-    { userId: usersId, startingPoint: -1 },
-    { name: textStats }
-  );
-  renderStatsPage(
-    req,
-    res,
-    req.user.username,
-    req.user._id,
-    "statsReady",
-    "goalsReady"
-  );
+  await UserStats.findOneAndUpdate({ userId: usersId, startingPoint: -1 }, { name: textStats });
+  renderStatsPage(req, res, req.user.username, req.user._id, "statsReady", "goalsReady");
 });
 
 app.post("/editGoals", (req, res) => {
-  renderStatsPage(
-    req,
-    res,
-    req.user.username,
-    req.user._id,
-    "statsReady",
-    "goalsEdit"
-  );
+  renderStatsPage(req, res, req.user.username, req.user._id, "statsReady", "goalsEdit");
 });
 app.post("/saveGoals", async (req, res) => {
   var usersId = req.user._id;
@@ -482,14 +408,7 @@ app.post("/saveGoals", async (req, res) => {
       );
     }
   }
-  renderStatsPage(
-    req,
-    res,
-    req.user.username,
-    req.user._id,
-    "statsReady",
-    "goalsReady"
-  );
+  renderStatsPage(req, res, req.user.username, req.user._id, "statsReady", "goalsReady");
 });
 app.post("/addGoal", async (req, res) => {
   var newId = await getNextId(UserStats);
@@ -504,12 +423,5 @@ app.post("/addGoal", async (req, res) => {
     units: "",
   });
   await usersStats.save();
-  renderStatsPage(
-    req,
-    res,
-    req.user.username,
-    req.user._id,
-    "statsReady",
-    "goalsEdit"
-  );
+  renderStatsPage(req, res, req.user.username, req.user._id, "statsReady", "goalsEdit");
 });
