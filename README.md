@@ -13,23 +13,21 @@ HTML5, CSS3, Node.js, express, ejs, mongoDb,passport, bootstrap
 
 # Install Instructions
 
-Once the repo has been pulled, open a terminal and naviagte into the ejs-eg directory. Once there, run the following:
+Once the repo has been pulled, open a terminal and navigate into the ejs-eg directory. Once there, run the following:
 
 1. clone the repo to your local machine
-2. Navigate into the ejs-eg folder using a terminal that you can use node in
-   Run the following commands in the git bash:
-3. npm init
-4. npm i express ejs mongoose passport passport-local passport-local-mongoose express-session dotenv
-5. make a new file names ".env" NOTE: path should be "ejs-eg/.env"
-6. in that file write SECRET=replace_these_letters_with_something_else
+2. Navigate into the ejs-eg folder using a terminal that you can use node in, and then
+   run the following commands in that terminal:
+   i. npm init
+   ii. npm i express ejs mongoose passport passport-local passport-local-mongoose express-session dotenv
+5. make a new file named ".env" NOTE: path should be "ejs-eg/.env"
+6. in that file write: SECRET=replace_these_letters_with_something_else
 7. ensure that you have replaced the letters asked with something new
 8. ensure mongo is both installed and working
 9. node makeDb.js
 10. node app.js
-11. Navigate to the console logged URL(http://localhost:3000) in your web browser
-    you can check the state of your local version of the database using the mongo command "use projectPAT" and then navigating it like you would on any other mongoDb database
-    If there are errors, ensure all packages are properly installed and that you have both node and mongo working on your local machine. also make sure that the .env is working correctly
-12. press ctrl+c in the console to stop the app from running
+11. Navigate to the console logged URL(http://localhost:3000) in your web browser. You can check the state of your local version of the database using the mongo command "use projectPAT" and then navigating it like you would on any other mongoDb database. If there are errors, ensure all packages are properly installed and that you have both node and mongo working on your local machine. Also make sure that the .env is named ".env" and contains the secret given in steps 6 & 7.
+12. Press ctrl+c in the console to stop the app from running, and if you wish to launch it again see step 10.
 
 # MVP 1
 
