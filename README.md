@@ -18,8 +18,8 @@ Once the repo has been pulled, open a terminal and navigate into the ejs-eg dire
 1. Clone the repo to your local machine
 2. Navigate into the ejs-eg folder using a terminal that you can use node in, and then
    run the following commands in that terminal:
-   i. npm init
-   ii. npm i express ejs mongoose passport passport-local passport-local-mongoose express-session dotenv
+3. npm init
+4. npm i express ejs mongoose passport passport-local passport-local-mongoose express-session dotenv
 5. Make a new file named ".env" NOTE: path should be "ejs-eg/.env"
 6. In that file write: SECRET=replace_these_letters_with_something_else
 7. Ensure that you have replaced the letters asked with something new
