@@ -42,7 +42,7 @@ will be stored on the database and will allow users to not only set goals but se
 have made in their journey to achieve their goals. Seeing this progress will help them keep
 motivated to complete their goals and ultimately live the way that they set out to do.
 
-# MVP 2
+# MVP 2 (Incomplete)
 
 The second iteration of our tool takes away the need for sharing to a third party and
 brings it right to the tool. It will bring full profiles where you can share activities, goals, personal
