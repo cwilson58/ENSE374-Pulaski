@@ -59,6 +59,7 @@ but it does not hinder those if it is not present.
 1. Intro Vlog - https://www.youtube.com/watch?v=_nZ_StArH2E
 2. Initial Documentation - https://www.youtube.com/watch?v=wQ-DMR_zjoI&ab_channel=ENSE374-Pulaski
 3. Design Architecture - https://www.youtube.com/watch?v=QAuIV7RuAFw
+4. MVP #1 Demo - https://www.youtube.com/watch?v=leGzvCJ2q-w
 
 # Naming Conventions
 
