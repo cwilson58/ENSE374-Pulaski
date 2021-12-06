@@ -259,13 +259,7 @@ body {
   background-color: #c1d8ce;
   border: 1px solid #004f2e;
 }
-/*For new calender*/
-.calendar {
-  width: 100%;
-  height: 100%;
-  background-color: #222227;
-  box-shadow: 0 0.5rem 3rem rgba(0, 0, 0, 0.4);
-}
+/*For new calendar*/
 
 .month {
   width: 100%;
